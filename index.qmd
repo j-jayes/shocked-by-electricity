@@ -28,21 +28,20 @@ execute:
   echo: false
 ---
 
-## Research question
+# Research question{#sec-researchquestion background-color="#1C9E77"}
+
+<br>
 
 How does getting access to new technology (electricity) impact your returns on the labour market, in terms of:
 
-- income, 
-- occupational choice, and 
-- choice to migrate?
+- Income, 
+- Occupational choice, and 
+- Choice on where to locate?
 
-# Motivation{#sec-motivation background-color="#1C9E77"}
 
-Test
+# Findings{#sec-findings background-color="#1C9E77"}
 
-## Electrification is a cannonical example of a **General Purpose Technology (GPT)**
-
-We find that when this new technology was adopted in Sweden:
+## We find that when this new technology was adopted in Sweden:
 
 - It made individuals richer 💰🔋
 - It lowered inequality 📉🤝
@@ -50,9 +49,9 @@ We find that when this new technology was adopted in Sweden:
 - It created new kinds of jobs 🤖👩‍🔧
 - It benefitted those in the middle of the skill distribution 🎓🔌
 
-## Why do we care about the second industrial revolution?
+# Motivation{#sec-motivation background-color="#1C9E77"}
 
-![](assets/factory.png){fig-align="center"}
+Why do we care about the second industrial revolution?
 
 ## New electrical machinery in agriculture
 
@@ -66,7 +65,9 @@ We find that when this new technology was adopted in Sweden:
 
 ![](assets/schon-energy-share.jpeg){fig-align="center"}
 
-## How do we know what happened to early elecrifiers?
+# Who were the early electrifiers in Sweden?{#sec-early background-color="#1C9E77"}
+
+## How do we know who the early electrifiers in Sweden were?
 
 <br>
 
@@ -91,9 +92,7 @@ We find that when this new technology was adopted in Sweden:
 
 ::::
 
-# Who were the early electrifiers in Sweden?
-
-## Large hydropower plants
+## Who were the early electrifiers in Sweden?
 
 ![](assets/map_big_power_stations.jpeg){fig-align="center"}
 
@@ -109,11 +108,11 @@ We find that when this new technology was adopted in Sweden:
 
 ![](assets/map_big_power_stations_line_1926.jpeg){fig-align="center"}
 
-## Treated parishes
+## Treated parishes{#sec-treatedparishes}
 
 ![](assets/map_big_power_stations_line_1926_with_treated_parishes.jpeg){fig-align="center"}
 
-[Why only the Western Line?](@sec-appendix)
+[Why only the Western Line?](#sec-westernline){.absolute top=0 right=0}
 
 ## Treated and control parishes
 
@@ -123,29 +122,13 @@ We find that when this new technology was adopted in Sweden:
 
 ![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_transformers.jpeg){fig-align="center"}
 
-## Location of hydro plants
+## Location of hydro plants{#sec-hydopower}
 
 ![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_hydro.jpeg){fig-align="center"}
 
-## Location of steam and diesel plants
+[What about other sources of power like coal and diesel turbines?](#sec-otherpower){.absolute top=0 right=0}
 
-:::: {.columns}
-
-::: {.column width="45%"}
-![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_diesel.jpeg){fig-align="center" width=70%}
-
-:::
-
-::: {.column width="10%"}
-:::
-
-::: {.column width="45%"}
-![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_steam.jpeg){fig-align="center" width=70%}
-:::
-
-::::
-
-## Rollout
+## Timeline of grid rollout
 
 ```{mermaid}
 flowchart TB
@@ -167,7 +150,11 @@ flowchart TB
 
 ```
 
-# What happened to early electrifiers in Sweden?
+# What did early electrifiers get?{#sec-firststage background-color="#1C9E77"}
+
+
+
+# What happened to early electrifiers in Sweden?{#sec-happened background-color="#1C9E77"}
 
 ## Rollout
 
@@ -316,9 +303,37 @@ ggsave(filename = here::here("assets/share_reporting_jobs.jpeg"), device = "jpeg
 Questions
 :::
 
-# Appendix{#sec-appendix background-color="#1C9E77"}
+# Appendix{#sec-appendix background-color="#D95F02"}
 
-## Importance of Western Line
+## Importance of Western Line{#sec-westernline}
 
 ![](assets/1922_power_lines.jpg){fig-align="center"}
+
+[Back to treated parishes](#sec-treatedparishes){.absolute top=0 right=0}
+
+## Location of steam and diesel plants{#sec-otherpower}
+
+[Back to hydropower](#sec-hydopower){.absolute top=0 right=0}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="45%"}
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_diesel.jpeg){fig-align="center" width=70%}
+
+
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_steam.jpeg){fig-align="center" width=70%}
+:::
+
+::::
+
+
+## Final slide
 
