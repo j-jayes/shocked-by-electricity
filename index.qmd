@@ -28,13 +28,21 @@ execute:
   echo: false
 ---
 
-## Motivation
+## Research question
 
-1. Electrification is a cannonical example of a **General Purpose Technology (GPT)**
+How does getting access to new technology (electricity) impact your returns on the labour market, in terms of:
 
-<br>
+- income, 
+- occupational choice, and 
+- choice to migrate?
 
-2. When this new technology was adopted in Sweden:
+# Motivation{#sec-motivation background-color="#1C9E77"}
+
+Test
+
+## Electrification is a cannonical example of a **General Purpose Technology (GPT)**
+
+We find that when this new technology was adopted in Sweden:
 
 - It made individuals richer 💰🔋
 - It lowered inequality 📉🤝
@@ -83,7 +91,85 @@ execute:
 
 ::::
 
-## What happened to early electrifiers in Sweden?
+# Who were the early electrifiers in Sweden?
+
+## Large hydropower plants
+
+![](assets/map_big_power_stations.jpeg){fig-align="center"}
+
+## Grid 1900
+
+![](assets/map_big_power_stations_line_1900.jpeg){fig-align="center"}
+
+## Grid 1911
+
+![](assets/map_big_power_stations_line_1911.jpeg){fig-align="center"}
+
+## Grid 1926
+
+![](assets/map_big_power_stations_line_1926.jpeg){fig-align="center"}
+
+## Treated parishes
+
+![](assets/map_big_power_stations_line_1926_with_treated_parishes.jpeg){fig-align="center"}
+
+[Why only the Western Line?](@sec-appendix)
+
+## Treated and control parishes
+
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes.jpeg){fig-align="center"}
+
+## Location of transformers
+
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_transformers.jpeg){fig-align="center"}
+
+## Location of hydro plants
+
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_hydro.jpeg){fig-align="center"}
+
+## Location of steam and diesel plants
+
+:::: {.columns}
+
+::: {.column width="45%"}
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_diesel.jpeg){fig-align="center" width=70%}
+
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_steam.jpeg){fig-align="center" width=70%}
+:::
+
+::::
+
+## Rollout
+
+```{mermaid}
+flowchart TB
+    subgraph Event
+    Olidan-->Alvkarleby
+    Alvkarleby-->WesternLine
+    Olidan[Olidan Power Plant opens: 1910]
+    Alvkarleby[Älvkarleby Power Plant opens: 1911]
+    WesternLine[Western Line is completed: 1921]
+    end
+
+    subgraph Measure
+    ElectrificationCommittee-->Census
+    ElectrificationCommittee[Swedish Electrification Committee Reports produced: 1926]
+    Census[Swedish census incl. income and wealth taken: 1930]
+    end
+
+    WesternLine-->ElectrificationCommittee
+
+```
+
+# What happened to early electrifiers in Sweden?
+
+## Rollout
 
 ![](assets/grid_rollout.jpg){fig-align="center"}
 
@@ -227,5 +313,12 @@ ggsave(filename = here::here("assets/share_reporting_jobs.jpeg"), device = "jpeg
 <br>
 <br>
 
-Thank you
+Questions
 :::
+
+# Appendix{#sec-appendix background-color="#1C9E77"}
+
+## Importance of Western Line
+
+![](assets/1922_power_lines.jpg){fig-align="center"}
+

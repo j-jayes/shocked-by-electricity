@@ -318,6 +318,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="index_files/libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="index_files/libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="index_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
   <link rel="shortcut icon" href="assets/favicon.ico">
 </head>
 <body class="quarto-light">
@@ -337,15 +340,23 @@ Jonathan Jayes - Lund University
 </div>
 
 </section>
-<section id="motivation" class="slide level2">
-<h2>Motivation</h2>
-<ol type="1">
-<li>Electrification is a cannonical example of a <strong>General Purpose Technology (GPT)</strong></li>
-</ol>
-<p><br></p>
-<ol start="2" type="1">
-<li>When this new technology was adopted in Sweden:</li>
-</ol>
+<section id="research-question" class="slide level2">
+<h2>Research question</h2>
+<p>How does getting access to new technology (electricity) impact your returns on the labour market, in terms of:</p>
+<ul>
+<li>income,</li>
+<li>occupational choice, and</li>
+<li>choice to migrate?</li>
+</ul>
+</section>
+<section>
+<section id="sec-motivation" class="title-slide slide level1 center" data-background-color="#1C9E77">
+<h1>Motivation</h1>
+<p>Test</p>
+</section>
+<section id="electrification-is-a-cannonical-example-of-a-general-purpose-technology-gpt" class="slide level2">
+<h2>Electrification is a cannonical example of a <strong>General Purpose Technology (GPT)</strong></h2>
+<p>We find that when this new technology was adopted in Sweden:</p>
 <ul>
 <li>It made individuals richer 💰🔋</li>
 <li>It lowered inequality 📉🤝</li>
@@ -390,9 +401,104 @@ Jonathan Jayes - Lund University
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="who-were-the-early-electrifiers-in-sweden" class="title-slide slide level1 center">
+<h1>Who were the early electrifiers in Sweden?</h1>
+
 </section>
-<section id="what-happened-to-early-electrifiers-in-sweden" class="slide level2">
-<h2>What happened to early electrifiers in Sweden?</h2>
+<section id="large-hydropower-plants" class="slide level2">
+<h2>Large hydropower plants</h2>
+
+<img data-src="assets/map_big_power_stations.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="grid-1900" class="slide level2">
+<h2>Grid 1900</h2>
+
+<img data-src="assets/map_big_power_stations_line_1900.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="grid-1911" class="slide level2">
+<h2>Grid 1911</h2>
+
+<img data-src="assets/map_big_power_stations_line_1911.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="grid-1926" class="slide level2">
+<h2>Grid 1926</h2>
+
+<img data-src="assets/map_big_power_stations_line_1926.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="treated-parishes" class="slide level2">
+<h2>Treated parishes</h2>
+
+<img data-src="assets/map_big_power_stations_line_1926_with_treated_parishes.jpeg" class="r-stretch quarto-figure-center"><p><a href="@sec-appendix" class="absolute" data-bottom="0" data-right="50" width="300" height="300">Why only the Western Line?</a></p>
+</section>
+<section id="treated-and-control-parishes" class="slide level2">
+<h2>Treated and control parishes</h2>
+
+<img data-src="assets/map_big_power_stations_line_1926_with_treated_and_control_parishes.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="location-of-transformers" class="slide level2">
+<h2>Location of transformers</h2>
+
+<img data-src="assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_transformers.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="location-of-hydro-plants" class="slide level2">
+<h2>Location of hydro plants</h2>
+
+<img data-src="assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_hydro.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="location-of-steam-and-diesel-plants" class="slide level2">
+<h2>Location of steam and diesel plants</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_diesel.jpeg" style="width:70.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_steam.jpeg" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rollout" class="slide level2">
+<h2>Rollout</h2>
+<div class="cell" data-reveal="true">
+<div class="cell-output-display">
+<div>
+<p>
+</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-1">flowchart TB
+    subgraph Event
+    Olidan--&gt;Alvkarleby
+    Alvkarleby--&gt;WesternLine
+    Olidan[Olidan Power Plant opens: 1910]
+    Alvkarleby[Älvkarleby Power Plant opens: 1911]
+    WesternLine[Western Line is completed: 1921]
+    end
+
+    subgraph Measure
+    ElectrificationCommittee--&gt;Census
+    ElectrificationCommittee[Swedish Electrification Committee Reports produced: 1926]
+    Census[Swedish census incl. income and wealth taken: 1930]
+    end
+
+    WesternLine--&gt;ElectrificationCommittee
+
+</pre>
+<div id="mermaid-tooltip-1" class="mermaidTooltip">
+
+</div>
+<p></p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="what-happened-to-early-electrifiers-in-sweden" class="title-slide slide level1 center">
+<h1>What happened to early electrifiers in Sweden?</h1>
+
+</section>
+<section id="rollout-1" class="slide level2">
+<h2>Rollout</h2>
 
 <img data-src="assets/grid_rollout.jpg" class="r-stretch quarto-figure-center"></section>
 <section id="no-large-unemployment-effects-in-areas-who-electrified-first" class="slide level2">
@@ -440,12 +546,21 @@ Jonathan Jayes - Lund University
 <div style="text-align: center">
 <p><br> <br></p>
 <p><br> <br></p>
-<p>Thank you</p>
+<p>Questions</p>
 </div>
-<div class="footer footer-default">
+</section></section>
+<section>
+<section id="sec-appendix" class="title-slide slide level1 center" data-background-color="#1C9E77">
+<h1>Appendix</h1>
+
+</section>
+<section id="importance-of-western-line" class="slide level2">
+<h2>Importance of Western Line</h2>
+
+<img data-src="assets/1922_power_lines.jpg" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 <p><a href="https://interludeone.com/content/research.html"></a></p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
