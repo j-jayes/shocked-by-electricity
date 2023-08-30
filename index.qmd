@@ -1,7 +1,10 @@
 ---
 title: "Shocked by electricity: The impact of new technology on individuals and local labour markets"
 subtitle: "EHES Vienna 2023 -Session 7 Room 8"
-author: "Jonathan Jayes  - Lund University"
+author: 
+  - "Jonathan Jayes  - Lund University"
+  - "Kerstin Enflo - Lund University"
+  - "Jakob Molinder - Uppsala University"
 title-slide-attributes:
   data-background-image: "assets/preview_wide.png"
   data-background-position: "bottom 10"
