@@ -98,7 +98,7 @@ Why do we care about the second industrial revolution?
 
 ![](assets/map_big_power_stations_line_1926.jpeg){fig-align="center"}
 
-## Treated parishes{#sec-treatedparishes}
+## Treated parishes along the 'Western Line'{#sec-treatedparishes}
 
 ![](assets/map_big_power_stations_line_1926_with_treated_parishes.jpeg){fig-align="center"}
 
@@ -231,6 +231,19 @@ table %>%
 
 # What happened to early electrifiers in Sweden?{#sec-happened background-color="#1C9E77"}
 
+## Who is a treated individual?
+
+Our sample comprises:
+
+Everyone in the 1930 census who:
+
+- Is between 15 and 40 years of age in 1930
+- Lives within 250 km of the Western Line
+
+Treated individuals were:
+
+- Born in a parish with early access to new technology by virtue of being on the Western Line.
+
 ## Employment effects{#sec-employmentols}
 
 If new technology automated away tasks, do we see lower rates of individuals recording an occupation?
@@ -337,56 +350,37 @@ table %>%
 
 ## Income effects
 
-Do individuals with access to new technology have higher incomes than their control parish comrades?
+Do individuals with access to new technology have higher incomes than their control parish born comrades?
 
-```{r}
-# Create the tibble for the regression coefficients and standard errors
+![](assets/income_OLS.png){fig-align="center"}
+
+
+```{r, eval=FALSE}
+# Load the tibble package
+library(tibble)
+
+# Create a tibble for the regression coefficients and standard errors
 regression_table <- tribble(
   ~Variable, ~Model1, ~Model2, ~Model3,
-  "Birth Parish (Treated)", "0.373***", "0.312***", "0.298***",
-  "(SE)", "(0.01)", "(0.01)", "(0.01)",
-  "Age", NA, "0.047***", "0.067***",
-  "(SE)", NA, "(0.00)", "(0.00)",
-  "Age Squared", NA, "-0.001***", "-0.001***",
-  "(SE)", NA, "(0.00)", "(0.00)",
-  "Female (1 = Yes 0 = No)", NA, "-0.463***", "-0.443***",
-  "(SE)", NA, "(0.00)", "(0.00)",
-  "Divorced", NA, NA, "0.000",
-  "(SE)", NA, NA, "(.)",
-  "Married", NA, NA, "-0.367***",
-  "(SE)", NA, NA, "(0.01)",
-  "Other", NA, NA, "-0.112",
-  "(SE)", NA, NA, "(0.19)",
-  "Unmarried", NA, NA, "-0.052***",
-  "(SE)", NA, NA, "(0.01)",
-  "Widow/Widower", NA, NA, "0.045***",
-  "(SE)", NA, NA, "(0.01)",
-  "Literate", NA, NA, "0.000",
-  "(SE)", NA, NA, "(.)",
-  "Post primary schooling", NA, NA, "0.265***",
-  "(SE)", NA, NA, "(0.02)",
-  "Post-secondary and university", NA, NA, "0.242***",
-  "(SE)", NA, NA, "(0.03)",
-  "Primary school", NA, NA, "0.286***",
-  "(SE)", NA, NA, "(0.02)",
-  "Constant", "0.630***", "0.264***", "-0.285***",
-  "(SE)", "(0.00)", "(0.01)", "(0.03)"
+  "Birth Parish (Treated)", "0.373***", "0.312***", "0.277***",
+  "(SE)", "(0.01)", "(0.01)", "(0.01)"
 )
 
-# Create the tibble for additional statistics
+# Create a tibble for additional statistics
 additional_stats <- tribble(
   ~Variable, ~Model1, ~Model2, ~Model3,
-  "R-squared", "0.00", "0.24", "0.30",
-  "Observations", "770075", "770075", "770075",
-  "F-stat", "5.506", "61936.779", "37819.375",
-  "Mean Dependent Var", "0.63", "0.63", "0.63"
+  "R-squared", "0.00", "0.10", "0.14",
+  "Observations", "484516", "484516", "484516",
+  "F-stat", "647.540", "12447.974", "4575.841",
+  "Mean Dependent Var", "5.75", "5.75", "5.75"
 )
+
 
 controls <-
   tribble(
     ~Variable, ~Model1, ~Model2, ~Model3,
     "Age and gender", "", "Yes", "Yes",
-    "Marital status and schooling", "", "", "Yes"
+    "Marital status, schooling and occupation", "", "", "Yes"
   )
 
 
@@ -398,12 +392,12 @@ table <- regression_table %>%
 table %>%
   gt() %>%
   cols_label(
-    Model1 = md("(1)<br>Holds an occupation<br>OLS"),
-    Model2 = md("(2)<br>Holds an occupation<br>OLS"),
-    Model3 = md("(3)<br>Holds an occupation<br>OLS")
+    Model1 = md("(1)<br>Log income<br>OLS"),
+    Model2 = md("(2)<br>Log income<br>OLS"),
+    Model3 = md("(3)<br>Log income<br>OLS")
   ) %>% 
-  tab_header(title = md("**Employment effect**"),
-             subtitle = "Likelihood of recording an occupation") %>% 
+  tab_header(title = md("**Income effect**"),
+             subtitle = "Log of income") %>% 
   tab_footnote("Robust standard errors in parentheses") %>% 
   tab_style(
     style = cell_borders(
@@ -431,17 +425,92 @@ table %>%
   ) %>% 
   tab_options(table.font.size = "80%") %>% 
   cols_align(-Variable, align = c("center")) %>% 
-  gtsave("assets/employment_OLS.png")
+  gtsave("assets/income_OLS.png")
 ```
 
 
 ## Inequality effects
 
+At the individual level, do we see differences in the income distributions between control and treated 
+
 At the parish level, do we see a more equal distribution of income among the treated parishes?
 
-# What are the mechanisms that drive these effects?
+# What are the mechanisms that drive these effects?{#sec-mechanisms background-color="#1C9E77"}
 
+## New kinds of occupations created
 
+![](assets/new_jobs_1930.jpeg){fig-align="center"}
+
+## How do we classify these occupations?
+
+3 categories of jobs:
+
+![](assets/common_job_types.jpeg){fig-align="center"}
+
+```{r, eval=FALSE}
+# Load the required package
+library(tidyverse)
+theme_set(theme_light())
+library(ggtext)
+library(showtext)
+## Loading Google fonts (https://fonts.google.com/)
+font_add_google("IBM Plex Mono", "ibm")
+font_add_google("Roboto", "roboto")
+
+showtext_opts(dpi = 300)
+showtext_auto(enable = TRUE)
+library(tidytext)
+
+# Create the tibble with translated occupations
+translated_tibble <- tribble(
+  ~job_type,               ~yrke.y_translated,     ~n,
+  "Direct electricity job", "electrician",         676,
+  "Direct electricity job", "electricity installer",471,
+  "Direct electricity job", "electricity worker",   80,
+  "Direct electricity job", "electricity machinist",51,
+  "Direct electricity job", "electrical installer", 20,
+  "Direct electricity job", "electrician installer",19,
+  "Indirect electricity job","textile worker",    4145,
+  "Indirect electricity job","sawmill worker",    2958,
+  "Indirect electricity job","factory worker",    2401,
+  "Indirect electricity job","carpentry worker",  2134,
+  "Indirect electricity job","blacksmith",        1511,
+  "Indirect electricity job","saw worker",        1495,
+  "Other job",                "landowner",       65033,
+  "Other job",                "agricultural worker",54374,
+  "Other job",                "house daughter",   28886,
+  "Other job",                "domestic helper",  18461,
+  "Other job",                "housekeeper",      17913,
+  "Other job",                "maid",             17415
+)
+
+translated_tibble %>% 
+  mutate(yrke.y_translated = str_to_title(yrke.y_translated),
+         yrke.y_translated = reorder_within(yrke.y_translated, n, job_type)) %>% 
+  ggplot(aes(n, yrke.y_translated, fill = job_type)) +
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_wrap(vars(job_type), scales = "free", nrow = 3) +
+  scale_y_reordered() +
+  labs(
+    x = NULL,
+    y = NULL,
+    title = "Most common titles for the three job types",
+    fill = NULL
+  ) +
+  theme(
+    # panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.title = element_markdown(size = 18, family = 'roboto'),
+    plot.title.position = "plot",
+    legend.position = "none",
+    text = element_text(family = 'ibm', size = 12)
+  )
+
+ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", width = 8, height = 4, units = "in")
+
+```
 
 
 # Findings{#sec-findings background-color="#1C9E77"}
@@ -454,19 +523,6 @@ At the parish level, do we see a more equal distribution of income among the tre
 - It created new kinds of jobs 🤖👩‍🔧
 - It benefitted those in the middle of the skill distribution 🎓🔌
 
-
-## Rollout
-
-![](assets/grid_rollout.jpg){fig-align="center"}
-
-## No large unemployment effects in areas who electrified first
-
-![](assets/share_reporting_jobs.jpeg){fig-align="center"}
-
-## Incomes were markedly higher in areas that electrified first
-
-![](assets/coef_plot.jpeg){fig-align="center"}
-
 ## Income was shared more equally in areas that electrified first
 
 ![](assets/dot_plot.jpeg){fig-align="center"} 
@@ -474,120 +530,6 @@ At the parish level, do we see a more equal distribution of income among the tre
 ## What were the mechanisms behind these effects?
 
 ![](assets/job_share_plot.jpeg){fig-align="center"} 
-
-## What are the new jobs that were created?
-
-![](assets/new_jobs_1930.jpeg){fig-align="center"}
-
-```{r}
-#| eval: false
-
-library(tidyverse)
-theme_set(theme_light())
-library(ggtext)
-library(showtext)
-## Loading Google fonts (https://fonts.google.com/)
-font_add_google("IBM Plex Mono", "ibm")
-font_add_google("Roboto", "roboto")
-
-showtext_opts(dpi = 300)
-showtext_auto(enable = TRUE)
-
-
-data <- tribble(
-  ~occupation, ~employees, ~classification,
-  "Electrical Fitter, General", 1000, "Medium-skilled",
-  "Automobile Mechanic", 750, "Medium-skilled",
-  "Operations Manager (Postal or Telecommunications Services)", 600, "Higher Manager",
-  "Wood Grader", 300, "Lower-skilled",
-  "Woodworking Machine Operator, General", 250, "Lower-skilled",
-  "Loom Fixer", 240, "Medium-skilled",
-  "Show Worker, Specialization Unknown", 230, "Lower-skilled",
-  "Waste Collector", 200, "Unskilled",
-  "Power-Generating Machine Operator", 200, "Medium-skilled",
-  "Welder, General", 180, "Lower-skilled",
-  "Pharmaceutical Assistant", 150, "Lower-skilled",
-  "Blast Furnace (Ore Smelting)", 120, "Lower-skilled",
-  "Highway and Street Construction Engineer", 100, "Higher Professional",
-  "Lace Weaver, Machine", 80, "Lower-skilled",
-  "Fiber Mixer and Blender", 50, "Lower-skilled",
-  "Technical Salesman", 40, "Medium-skilled"
-)
-
-# Convert strings to title case
-data$occupation <- tools::toTitleCase(data$occupation)
-
-order <- c("Higher Manager", "Higher Professional", "Medium-skilled", "Lower-skilled")
-
-order_tbl <- tibble(classification = order, order = 1:length(order))
-
-# join data and order tbl
-data <- data %>%
-  left_join(order_tbl, by = "classification")
-
-data %>%
-  mutate(occupation = fct_reorder(occupation, employees)) %>%
-  filter(classification != "Unskilled") %>%
-  mutate(classification = fct_reorder(classification, order)) %>%
-  ggplot(aes(x = occupation, y = employees, fill = classification)) +
-  geom_col(alpha = .8) +
-  coord_flip() +
-  labs(x = NULL, y = "Number of employees", title = "New occupations created in Sweden 1910-1930", fill = "Job type") +
-  scale_fill_brewer(palette = "Dark2") +
-  theme(
-    # panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    plot.title = element_markdown(size = 32, family = 'roboto'),
-    plot.title.position = "plot",
-    legend.position = "right",
-    text = element_text(family = 'ibm', size = 18)
-  ) 
-
-
-ggsave(filename = here::here("assets/new_jobs_1930.jpeg"), device = "jpeg", width = 450, height = 231, units = "mm", dpi = 300)
-
-
-employment <- tibble(group = c("Treated", "Control"), employment_share = c(0.6123, 0.6070))
-
-# ggplot column plot with employment
-employment %>%
-  mutate(employment_share_lab = scales::percent(employment_share)) %>%
-  ggplot(aes(y = group, x = employment_share, fill = group)) +
-  geom_col(alpha = .8) +
-  geom_text(aes(label = employment_share_lab), cex = 8, hjust = -0.1) +
-  labs(y = NULL, x = "Share reporting income and occupation", 
-  title = "Working age population with occupation and income <br> in <b><span style = 'color:#9C6114;'>treated</span></b> and 
-                          <b><span style = 'color:#000080;'>control</span></b> parishes in 1930", fill = NULL) +
-  scale_fill_manual(values = c("#000080", "#9C6114")) +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1), limits = c(NA, 1)) +
-  theme(
-    # panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    plot.title = element_markdown(size = 32, family = 'roboto'),
-    plot.title.position = "plot",
-    legend.position = "none",
-    text = element_text(family = 'ibm', size = 18)
-  )
-
-ggsave(filename = here::here("assets/share_reporting_jobs.jpeg"), device = "jpeg", width = 290, height = 231, units = "mm", dpi = 300)
-```
-
-## What can we learn from this era of technological change?
-
-1. New kinds of jobs were created with the new technology 🎛️👩‍💻
-
-2. The new jobs were not necessarily high-skilled 🎓⬇️
-    - learning by doing / on the job training 🧑‍🔧💡
-    - creation of middle-skilled jobs 👨‍💼🔨
-
-3. It met people where they were 📍🤝
-    - the new jobs were created in the same areas as the old jobs 🏭➡️🏢
-
-<br>
-
-### Why is this time different? 🕰️🔄🤔
 
 ##
 
@@ -815,8 +757,4 @@ table %>%
   cols_align(-Variable, align = c("center")) %>% 
   gtsave("assets/employment_probit.png")
 ```
-
-
-
-## Final slide
 
