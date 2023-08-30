@@ -6,7 +6,9 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="index_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.2.313">
 
   <meta name="author" content="Jonathan Jayes - Lund University">
@@ -352,21 +354,6 @@ Jonathan Jayes - Lund University
 </section>
 
 <section>
-<section id="sec-findings" class="title-slide slide level1 center" data-background-color="#1C9E77">
-<h1>Findings</h1>
-
-</section>
-<section id="we-find-that-when-this-new-technology-was-adopted-in-sweden" class="slide level2">
-<h2>We find that when this new technology was adopted in Sweden:</h2>
-<ul>
-<li>It made individuals richer 💰🔋</li>
-<li>It lowered inequality 📉🤝</li>
-<li>It allowed structural change on the labor market 🔧💼</li>
-<li>It created new kinds of jobs 🤖👩‍🔧</li>
-<li>It benefitted those in the middle of the skill distribution 🎓🔌</li>
-</ul>
-</section></section>
-<section>
 <section id="sec-motivation" class="title-slide slide level1 center" data-background-color="#1C9E77">
 <h1>Motivation</h1>
 <p>Why do we care about the second industrial revolution?</p>
@@ -475,15 +462,64 @@ Jonathan Jayes - Lund University
 </div>
 </div>
 </section></section>
+<section>
 <section id="sec-firststage" class="title-slide slide level1 center" data-background-color="#1C9E77">
 <h1>What did early electrifiers get?</h1>
 
 </section>
+<section id="sec-firststagelevels" class="slide level2">
+<h2>Quasi first stage</h2>
+<p>Treated parishes have access to more electricity (KvA), controlling for parish area and population.</p>
 
+<img data-src="assets/first_stage_levels.png" class="r-stretch quarto-figure-center"><div class="cell">
+
+</div>
+<p><a href="#/sec-firststagelog" class="absolute" data-top="0" data-right="0">What about logging the outcome variable?</a></p>
+</section></section>
 <section>
 <section id="sec-happened" class="title-slide slide level1 center" data-background-color="#1C9E77">
 <h1>What happened to early electrifiers in Sweden?</h1>
 
+</section>
+<section id="sec-employmentols" class="slide level2">
+<h2>Employment effects</h2>
+<p>If new technology automated away tasks, do we see lower rates of individuals recording an occupation?</p>
+
+<img data-src="assets/employment_OLS.png" class="r-stretch quarto-figure-center"><p><a href="#/sec-employmentprobit" class="absolute" data-top="0" data-right="0">What about using a probit?</a></p>
+<div class="cell">
+
+</div>
+</section>
+<section id="income-effects" class="slide level2">
+<h2>Income effects</h2>
+<p>Do individuals with access to new technology have higher incomes than their control parish comrades?</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="inequality-effects" class="slide level2">
+<h2>Inequality effects</h2>
+<p>At the parish level, do we see a more equal distribution of income among the treated parishes?</p>
+</section></section>
+<section id="what-are-the-mechanisms-that-drive-these-effects" class="title-slide slide level1 center">
+<h1>What are the mechanisms that drive these effects?</h1>
+
+</section>
+
+<section>
+<section id="sec-findings" class="title-slide slide level1 center" data-background-color="#1C9E77">
+<h1>Findings</h1>
+
+</section>
+<section id="we-find-that-when-this-new-technology-was-adopted-in-sweden" class="slide level2">
+<h2>We find that when this new technology was adopted in Sweden:</h2>
+<ul>
+<li>It made individuals richer 💰🔋</li>
+<li>It lowered inequality 📉🤝</li>
+<li>It allowed structural change on the labor market 🔧💼</li>
+<li>It created new kinds of jobs 🤖👩‍🔧</li>
+<li>It benefitted those in the middle of the skill distribution 🎓🔌</li>
+</ul>
 </section>
 <section id="rollout" class="slide level2">
 <h2>Rollout</h2>
@@ -569,10 +605,26 @@ Jonathan Jayes - Lund University
 </div>
 </div>
 </section>
+<section id="sec-firststagelog" class="slide level2">
+<h2>Quasi first stage</h2>
+
+<img data-src="assets/first_stage_log.png" class="r-stretch quarto-figure-center"><p><a href="#/sec-firststagelevels" class="absolute" data-top="0" data-right="0">Back to first stage in levels</a></p>
+<div class="cell">
+
+</div>
+</section>
+<section id="sec-employmentprobit" class="slide level2">
+<h2>Employment effect</h2>
+
+<img data-src="assets/employment_probit.png" class="r-stretch quarto-figure-center"><p><a href="#/sec-employmentols" class="absolute" data-top="0" data-right="0">Back to employment OLS</a></p>
+<div class="cell">
+
+</div>
+</section>
 <section id="final-slide" class="slide level2">
 <h2>Final slide</h2>
 <div class="footer footer-default">
-<p><a href="https://interludeone.com/content/research.html"></a></p>
+<p><a href="https://interludeone.com/content/research.html"><i class="fa-solid fa-house" aria-label="house"></i></a></p>
 </div>
 </section></section>
     </div>

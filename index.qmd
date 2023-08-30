@@ -26,6 +26,7 @@ favicon: "assets/favicon.ico"
 execute: 
   eval: true
   echo: false
+
 ---
 
 # Research question{#sec-researchquestion background-color="#1C9E77"}
@@ -37,17 +38,6 @@ How does getting access to new technology (electricity) impact your returns on t
 - Income, 
 - Occupational choice, and 
 - Choice on where to locate?
-
-
-# Findings{#sec-findings background-color="#1C9E77"}
-
-## We find that when this new technology was adopted in Sweden:
-
-- It made individuals richer 💰🔋
-- It lowered inequality 📉🤝
-- It allowed structural change on the labor market 🔧💼
-- It created new kinds of jobs 🤖👩‍🔧
-- It benefitted those in the middle of the skill distribution 🎓🔌
 
 # Motivation{#sec-motivation background-color="#1C9E77"}
 
@@ -152,9 +142,318 @@ flowchart TB
 
 # What did early electrifiers get?{#sec-firststage background-color="#1C9E77"}
 
+## Quasi first stage{#sec-firststagelevels}
 
+Treated parishes have access to more electricity (KvA), controlling for parish area and population. 
+
+![](assets/first_stage_levels.png){fig-align="center"}
+
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(gt)
+
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Treated parishes", "1303.562***", "1343.307***", "-39.745",
+  "(SE)", "(348.95)", "(339.95)", "(72.49)",
+  "Parish area in square kilometers", "0.000", "0.000", "-0.000",
+  "(SE)", "(0.00)", "(0.00)", "(0.00)",
+  "Parish population in 1900", "0.147***", "0.140***", "0.007",
+  "(SE)", "(0.03)", "(0.03)", "(0.01)",
+  "Constant", "13.580", "-60.639", "74.219*",
+  "(SE)", "(145.55)", "(141.80)", "(30.24)"
+)
+
+# Create the tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "R-squared", "0.02", "0.02", "0.00",
+  "Observations", "1792", "1792", "1792",
+  "F-stat", "14.009", "14.208", "0.642",
+  "Mean Dependent Var", "514.24", "437.36", "76.88"
+)
+
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Parish area in square kilometers", "Yes", "Yes", "Yes",
+    "Parish population in 1900", "Yes", "Yes", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Total power"),
+    Model2 = md("(2)<br>Total power<br>(transformers)"),
+    Model3 = md("(3)<br>Total power<br>(generators)")
+  ) %>% 
+  tab_header(title = md("**Quasi first stage**"),
+             subtitle = "Total power (levels)") %>% 
+  tab_footnote("Robust standard errors in parentheses") %>% 
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations =  cells_body(rows = 5)
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations =  cells_body(rows = 8)
+  ) %>% 
+  tab_options(table.font.size = "80%") %>% 
+  cols_align(-Variable, align = c("center")) %>% 
+  gtsave("assets/first_stage_levels.png")
+```
+
+[What about logging the outcome variable?](#sec-firststagelog){.absolute top=0 right=0}
 
 # What happened to early electrifiers in Sweden?{#sec-happened background-color="#1C9E77"}
+
+## Employment effects{#sec-employmentols}
+
+If new technology automated away tasks, do we see lower rates of individuals recording an occupation?
+
+![](assets/employment_OLS.png){fig-align="center"}
+
+[What about using a probit?](#sec-employmentprobit){.absolute top=0 right=0}
+
+
+```{r, eval=FALSE}
+# Create the tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "-0.005*", "-0.004*", "0.002",
+  "(SE)", "(0.00)", "(0.00)", "(0.00)",
+  "Age", NA, "0.047***", "0.067***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Age Squared", NA, "-0.001***", "-0.001***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Female (1 = Yes 0 = No)", NA, "-0.463***", "-0.443***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Divorced", NA, NA, "0.000",
+  "(SE)", NA, NA, "(.)",
+  "Married", NA, NA, "-0.367***",
+  "(SE)", NA, NA, "(0.01)",
+  "Other", NA, NA, "-0.112",
+  "(SE)", NA, NA, "(0.19)",
+  "Unmarried", NA, NA, "-0.052***",
+  "(SE)", NA, NA, "(0.01)",
+  "Widow/Widower", NA, NA, "0.045***",
+  "(SE)", NA, NA, "(0.01)",
+  "Literate", NA, NA, "0.000",
+  "(SE)", NA, NA, "(.)",
+  "Post primary schooling", NA, NA, "0.265***",
+  "(SE)", NA, NA, "(0.02)",
+  "Post-secondary and university", NA, NA, "0.242***",
+  "(SE)", NA, NA, "(0.03)",
+  "Primary school", NA, NA, "0.286***",
+  "(SE)", NA, NA, "(0.02)",
+  "Constant", "0.630***", "0.264***", "-0.285***",
+  "(SE)", "(0.00)", "(0.01)", "(0.03)"
+)
+
+# Create the tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "R-squared", "0.00", "0.24", "0.30",
+  "Observations", "770075", "770075", "770075",
+  "F-stat", "5.506", "61936.779", "37819.375",
+  "Mean Dependent Var", "0.63", "0.63", "0.63"
+)
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status and schooling", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holds an occupation<br>OLS"),
+    Model2 = md("(2)<br>Holds an occupation<br>OLS"),
+    Model3 = md("(3)<br>Holds an occupation<br>OLS")
+  ) %>% 
+  tab_header(title = md("**Employment effect**"),
+             subtitle = "Likelihood of recording an occupation") %>% 
+  tab_footnote("Robust standard errors in parentheses") %>% 
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations =  cells_body(rows = 5)
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations =  cells_body(rows = 8)
+  ) %>% 
+  tab_options(table.font.size = "80%") %>% 
+  cols_align(-Variable, align = c("center")) %>% 
+  gtsave("assets/employment_OLS.png")
+```
+
+## Income effects
+
+Do individuals with access to new technology have higher incomes than their control parish comrades?
+
+```{r}
+# Create the tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "0.373***", "0.312***", "0.298***",
+  "(SE)", "(0.01)", "(0.01)", "(0.01)",
+  "Age", NA, "0.047***", "0.067***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Age Squared", NA, "-0.001***", "-0.001***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Female (1 = Yes 0 = No)", NA, "-0.463***", "-0.443***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Divorced", NA, NA, "0.000",
+  "(SE)", NA, NA, "(.)",
+  "Married", NA, NA, "-0.367***",
+  "(SE)", NA, NA, "(0.01)",
+  "Other", NA, NA, "-0.112",
+  "(SE)", NA, NA, "(0.19)",
+  "Unmarried", NA, NA, "-0.052***",
+  "(SE)", NA, NA, "(0.01)",
+  "Widow/Widower", NA, NA, "0.045***",
+  "(SE)", NA, NA, "(0.01)",
+  "Literate", NA, NA, "0.000",
+  "(SE)", NA, NA, "(.)",
+  "Post primary schooling", NA, NA, "0.265***",
+  "(SE)", NA, NA, "(0.02)",
+  "Post-secondary and university", NA, NA, "0.242***",
+  "(SE)", NA, NA, "(0.03)",
+  "Primary school", NA, NA, "0.286***",
+  "(SE)", NA, NA, "(0.02)",
+  "Constant", "0.630***", "0.264***", "-0.285***",
+  "(SE)", "(0.00)", "(0.01)", "(0.03)"
+)
+
+# Create the tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "R-squared", "0.00", "0.24", "0.30",
+  "Observations", "770075", "770075", "770075",
+  "F-stat", "5.506", "61936.779", "37819.375",
+  "Mean Dependent Var", "0.63", "0.63", "0.63"
+)
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status and schooling", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holds an occupation<br>OLS"),
+    Model2 = md("(2)<br>Holds an occupation<br>OLS"),
+    Model3 = md("(3)<br>Holds an occupation<br>OLS")
+  ) %>% 
+  tab_header(title = md("**Employment effect**"),
+             subtitle = "Likelihood of recording an occupation") %>% 
+  tab_footnote("Robust standard errors in parentheses") %>% 
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations =  cells_body(rows = 5)
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations =  cells_body(rows = 8)
+  ) %>% 
+  tab_options(table.font.size = "80%") %>% 
+  cols_align(-Variable, align = c("center")) %>% 
+  gtsave("assets/employment_OLS.png")
+```
+
+
+## Inequality effects
+
+At the parish level, do we see a more equal distribution of income among the treated parishes?
+
+# What are the mechanisms that drive these effects?
+
+
+
+
+# Findings{#sec-findings background-color="#1C9E77"}
+
+## We find that when this new technology was adopted in Sweden:
+
+- It made individuals richer 💰🔋
+- It lowered inequality 📉🤝
+- It allowed structural change on the labor market 🔧💼
+- It created new kinds of jobs 🤖👩‍🔧
+- It benefitted those in the middle of the skill distribution 🎓🔌
+
 
 ## Rollout
 
@@ -333,6 +632,190 @@ Questions
 :::
 
 ::::
+
+
+## Quasi first stage{#sec-firststagelog}
+
+![](assets/first_stage_log.png){fig-align="center"}
+
+[Back to first stage in levels](#sec-firststagelevels){.absolute top=0 right=0}
+
+```{r, eval=FALSE}
+# Create the tibble
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Treated parishes", "0.920***", "0.973***", "1.158",
+  "(SE)", "(0.28)", "(0.29)", "(0.65)",
+  "Parish area in square kilometers", "0.000", "0.000", "-0.000*",
+  "(SE)", "(0.00)", "(0.00)", "(0.00)",
+  "Parish population in 1900", "0.000***", "0.000***", "0.000",
+  "(SE)", "(0.00)", "(0.00)", "(0.00)",
+  "Constant", "4.586***", "4.419***", "5.366***",
+  "(SE)", "(0.12)", "(0.12)", "(0.32)"
+)
+
+# Add additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "R-squared", "0.12", "0.11", "0.10",
+  "Observations", "511", "511", "511",
+  "F-stat", "22.712", "19.937", "3.119",
+  "Mean Dependent Var", "5.25", "5.08", "5.45"
+)
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Parish area in square kilometers", "Yes", "Yes", "Yes",
+    "Parish population in 1900", "Yes", "Yes", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Ln total power"),
+    Model2 = md("(2)<br>Ln total power<br>(transformers)"),
+    Model3 = md("(3)<br>Ln total power<br>(generators)")
+  ) %>% 
+  tab_header(title = md("**Quasi first stage**"),
+             subtitle = "Total power (logged)") %>% 
+  tab_footnote("Robust standard errors in parentheses") %>% 
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations =  cells_body(rows = 5)
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations =  cells_body(rows = 8)
+  ) %>% 
+  tab_options(table.font.size = "80%") %>% 
+  cols_align(-Variable, align = c("center")) %>% 
+  gtsave("assets/first_stage_log.png")
+```
+
+## Employment effect{#sec-employmentprobit}
+
+![](assets/employment_probit.png){fig-align="center"}
+
+[Back to employment OLS](#sec-employmentols){.absolute top=0 right=0}
+
+```{r, eval=FALSE}
+# Create the tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "-0.014*", "-0.011", "0.012",
+  "(SE)", "(0.01)", "(0.01)", "(0.01)",
+  "Age", NA, "0.047***", "0.067***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Age Squared", NA, "-0.001***", "-0.001***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Female (1 = Yes 0 = No)", NA, "-0.463***", "-0.443***",
+  "(SE)", NA, "(0.00)", "(0.00)",
+  "Divorced", NA, NA, "0.000",
+  "(SE)", NA, NA, "(.)",
+  "Married", NA, NA, "-0.367***",
+  "(SE)", NA, NA, "(0.01)",
+  "Other", NA, NA, "-0.112",
+  "(SE)", NA, NA, "(0.19)",
+  "Unmarried", NA, NA, "-0.052***",
+  "(SE)", NA, NA, "(0.01)",
+  "Widow/Widower", NA, NA, "0.045***",
+  "(SE)", NA, NA, "(0.01)",
+  "Literate", NA, NA, "0.000",
+  "(SE)", NA, NA, "(.)",
+  "Post primary schooling", NA, NA, "0.265***",
+  "(SE)", NA, NA, "(0.02)",
+  "Post-secondary and university", NA, NA, "0.242***",
+  "(SE)", NA, NA, "(0.03)",
+  "Primary school", NA, NA, "0.286***",
+  "(SE)", NA, NA, "(0.02)",
+  "Constant", "0.630***", "0.264***", "-0.285***",
+  "(SE)", "(0.00)", "(0.01)", "(0.03)"
+)
+
+# Create the tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "R-squared", "0.00", "0.24", "0.30",
+  "Observations", "770075", "770075", "770075",
+  "F-stat", "5.506", "61936.779", "37819.375",
+  "Mean Dependent Var", "0.63", "0.63", "0.63"
+)
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status and schooling", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holds an occupation<br>Probit"),
+    Model2 = md("(2)<br>Holds an occupation<br>Probit"),
+    Model3 = md("(3)<br>Holds an occupation<br>Probit")
+  ) %>% 
+  tab_header(title = md("**Employment effect**"),
+             subtitle = "Likelihood of recording an occupation") %>% 
+  tab_footnote("Robust standard errors in parentheses") %>% 
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations =  cells_body(rows = 5)
+  ) %>% 
+    tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations =  cells_body(rows = 8)
+  ) %>% 
+  tab_options(table.font.size = "80%") %>% 
+  cols_align(-Variable, align = c("center")) %>% 
+  gtsave("assets/employment_probit.png")
+```
+
 
 
 ## Final slide
