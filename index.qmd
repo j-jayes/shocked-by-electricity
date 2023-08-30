@@ -120,25 +120,8 @@ Why do we care about the second industrial revolution?
 
 ## Timeline of grid rollout
 
-```{mermaid}
-flowchart TB
-    subgraph Event
-    Olidan-->Alvkarleby
-    Alvkarleby-->WesternLine
-    Olidan[Olidan Power Plant opens: 1910]
-    Alvkarleby[Älvkarleby Power Plant opens: 1911]
-    WesternLine[Western Line is completed: 1921]
-    end
+![](assets/timeline.png){fig-align="center"}
 
-    subgraph Measure
-    ElectrificationCommittee-->Census
-    ElectrificationCommittee[Swedish Electrification Committee Reports produced: 1926]
-    Census[Swedish census incl. income and wealth taken: 1930]
-    end
-
-    WesternLine-->ElectrificationCommittee
-
-```
 
 # What did early electrifiers get?{#sec-firststage background-color="#1C9E77"}
 
@@ -233,12 +216,10 @@ table %>%
 
 ## Who is a treated individual?
 
-Our sample comprises:
+Our sample comprises everyone in the 1930 census who:
 
-Everyone in the 1930 census who:
-
-- Is between 15 and 40 years of age in 1930
-- Lives within 250 km of the Western Line
+- Is between `15 and 40 years of age` in 1930
+- Lives within `250 km of the Western Line`
 
 Treated individuals were:
 
@@ -246,7 +227,7 @@ Treated individuals were:
 
 ## Employment effects{#sec-employmentols}
 
-If new technology automated away tasks, do we see lower rates of individuals recording an occupation?
+If new technology automated away tasks, do we see lower rates of individuals `recording an occupation?`
 
 ![](assets/employment_OLS.png){fig-align="center"}
 
@@ -350,7 +331,7 @@ table %>%
 
 ## Income effects
 
-Do individuals with access to new technology have higher incomes than their control parish born comrades?
+Do individuals with access to new technology have `higher incomes` than their control parish born comrades?
 
 ![](assets/income_OLS.png){fig-align="center"}
 
@@ -431,7 +412,11 @@ table %>%
 
 ## Inequality effects
 
-At the individual level, do we see differences in the income distributions between control and treated 
+At the individual level, do we see differences in the income distributions between treated and control individuals?
+
+![](assets/dot_plot.jpeg){fig-align="center"}
+
+## Inequality effects
 
 At the parish level, do we see a more equal distribution of income among the treated parishes?
 
@@ -512,6 +497,7 @@ ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", w
 
 ```
 
+## 
 
 # Findings{#sec-findings background-color="#1C9E77"}
 
@@ -544,15 +530,15 @@ ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", w
 Questions
 :::
 
-# Appendix{#sec-appendix background-color="#D95F02"}
+# Appendix{#sec-appendix background-color="#D95F02" visibility="uncounted"}
 
-## Importance of Western Line{#sec-westernline}
+## Importance of Western Line{#sec-westernline visibility="uncounted"}
 
 ![](assets/1922_power_lines.jpg){fig-align="center"}
 
 [Back to treated parishes](#sec-treatedparishes){.absolute top=0 right=0}
 
-## Location of steam and diesel plants{#sec-otherpower}
+## Location of steam and diesel plants{#sec-otherpower visibility="uncounted"}
 
 [Back to hydropower](#sec-hydopower){.absolute top=0 right=0}
 
@@ -576,7 +562,7 @@ Questions
 ::::
 
 
-## Quasi first stage{#sec-firststagelog}
+## Quasi first stage{#sec-firststagelog visibility="uncounted"}
 
 ![](assets/first_stage_log.png){fig-align="center"}
 
@@ -657,7 +643,7 @@ table %>%
   gtsave("assets/first_stage_log.png")
 ```
 
-## Employment effect{#sec-employmentprobit}
+## Employment effect{#sec-employmentprobit visibility="uncounted"}
 
 ![](assets/employment_probit.png){fig-align="center"}
 

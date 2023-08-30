@@ -320,9 +320,6 @@
       margin-right: 0; 
     }
   </style>
-  <script src="index_files/libs/quarto-diagram/mermaid.min.js"></script>
-  <script src="index_files/libs/quarto-diagram/mermaid-init.js"></script>
-  <link href="index_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
   <link rel="shortcut icon" href="assets/favicon.ico">
 </head>
 <body class="quarto-light">
@@ -432,36 +429,8 @@ Jonathan Jayes - Lund University
 </section>
 <section id="timeline-of-grid-rollout" class="slide level2">
 <h2>Timeline of grid rollout</h2>
-<div class="cell" data-reveal="true">
-<div class="cell-output-display">
-<div>
-<p>
-</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-1">flowchart TB
-    subgraph Event
-    Olidan--&gt;Alvkarleby
-    Alvkarleby--&gt;WesternLine
-    Olidan[Olidan Power Plant opens: 1910]
-    Alvkarleby[Älvkarleby Power Plant opens: 1911]
-    WesternLine[Western Line is completed: 1921]
-    end
 
-    subgraph Measure
-    ElectrificationCommittee--&gt;Census
-    ElectrificationCommittee[Swedish Electrification Committee Reports produced: 1926]
-    Census[Swedish census incl. income and wealth taken: 1930]
-    end
-
-    WesternLine--&gt;ElectrificationCommittee
-
-</pre>
-<div id="mermaid-tooltip-1" class="mermaidTooltip">
-
-</div>
-<p></p>
-</div>
-</div>
-</div>
-</section></section>
+<img data-src="assets/timeline.png" class="r-stretch quarto-figure-center"></section></section>
 <section>
 <section id="sec-firststage" class="title-slide slide level1 center" data-background-color="#1C9E77">
 <h1>What did early electrifiers get?</h1>
@@ -483,11 +452,10 @@ Jonathan Jayes - Lund University
 </section>
 <section id="who-is-a-treated-individual" class="slide level2">
 <h2>Who is a treated individual?</h2>
-<p>Our sample comprises:</p>
-<p>Everyone in the 1930 census who:</p>
+<p>Our sample comprises everyone in the 1930 census who:</p>
 <ul>
-<li>Is between 15 and 40 years of age in 1930</li>
-<li>Lives within 250 km of the Western Line</li>
+<li>Is between <code>15 and 40 years of age</code> in 1930</li>
+<li>Lives within <code>250 km of the Western Line</code></li>
 </ul>
 <p>Treated individuals were:</p>
 <ul>
@@ -496,7 +464,7 @@ Jonathan Jayes - Lund University
 </section>
 <section id="sec-employmentols" class="slide level2">
 <h2>Employment effects</h2>
-<p>If new technology automated away tasks, do we see lower rates of individuals recording an occupation?</p>
+<p>If new technology automated away tasks, do we see lower rates of individuals <code>recording an occupation?</code></p>
 
 <img data-src="assets/employment_OLS.png" class="r-stretch quarto-figure-center"><p><a href="#/sec-employmentprobit" class="absolute" data-top="0" data-right="0">What about using a probit?</a></p>
 <div class="cell">
@@ -505,7 +473,7 @@ Jonathan Jayes - Lund University
 </section>
 <section id="income-effects" class="slide level2">
 <h2>Income effects</h2>
-<p>Do individuals with access to new technology have higher incomes than their control parish born comrades?</p>
+<p>Do individuals with access to new technology have <code>higher incomes</code> than their control parish born comrades?</p>
 
 <img data-src="assets/income_OLS.png" class="r-stretch quarto-figure-center"><div class="cell">
 
@@ -513,7 +481,11 @@ Jonathan Jayes - Lund University
 </section>
 <section id="inequality-effects" class="slide level2">
 <h2>Inequality effects</h2>
-<p>At the individual level, do we see differences in the income distributions between control and treated</p>
+<p>At the individual level, do we see differences in the income distributions between treated and control individuals?</p>
+
+<img data-src="assets/dot_plot.jpeg" class="r-stretch quarto-figure-center"></section>
+<section id="inequality-effects-1" class="slide level2">
+<h2>Inequality effects</h2>
 <p>At the parish level, do we see a more equal distribution of income among the treated parishes?</p>
 </section></section>
 <section>
@@ -532,6 +504,9 @@ Jonathan Jayes - Lund University
 <img data-src="assets/common_job_types.jpeg" class="r-stretch quarto-figure-center"><div class="cell">
 
 </div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
 </section></section>
 <section>
 <section id="sec-findings" class="title-slide slide level1 center" data-background-color="#1C9E77">
@@ -556,7 +531,7 @@ Jonathan Jayes - Lund University
 <h2>What were the mechanisms behind these effects?</h2>
 
 <img data-src="assets/job_share_plot.jpeg" class="r-stretch quarto-figure-center"></section>
-<section id="section" class="slide level2">
+<section id="section-1" class="slide level2">
 <h2></h2>
 <div style="text-align: center">
 <p><br> <br></p>
@@ -565,16 +540,16 @@ Jonathan Jayes - Lund University
 </div>
 </section></section>
 <section>
-<section id="sec-appendix" class="title-slide slide level1 center" data-background-color="#D95F02">
+<section id="sec-appendix" class="title-slide slide level1 center" data-background-color="#D95F02" data-visibility="uncounted">
 <h1>Appendix</h1>
 
 </section>
-<section id="sec-westernline" class="slide level2">
+<section id="sec-westernline" class="slide level2" data-visibility="uncounted">
 <h2>Importance of Western Line</h2>
 
 <img data-src="assets/1922_power_lines.jpg" class="r-stretch quarto-figure-center"><p><a href="#/sec-treatedparishes" class="absolute" data-top="0" data-right="0">Back to treated parishes</a></p>
 </section>
-<section id="sec-otherpower" class="slide level2">
+<section id="sec-otherpower" class="slide level2" data-visibility="uncounted">
 <h2>Location of steam and diesel plants</h2>
 <p><a href="#/sec-hydopower" class="absolute" data-top="0" data-right="0">Back to hydropower</a></p>
 <p><br></p>
@@ -596,7 +571,7 @@ Jonathan Jayes - Lund University
 </div>
 </div>
 </section>
-<section id="sec-firststagelog" class="slide level2">
+<section id="sec-firststagelog" class="slide level2" data-visibility="uncounted">
 <h2>Quasi first stage</h2>
 
 <img data-src="assets/first_stage_log.png" class="r-stretch quarto-figure-center"><p><a href="#/sec-firststagelevels" class="absolute" data-top="0" data-right="0">Back to first stage in levels</a></p>
@@ -604,7 +579,7 @@ Jonathan Jayes - Lund University
 
 </div>
 </section>
-<section id="sec-employmentprobit" class="slide level2">
+<section id="sec-employmentprobit" class="slide level2" data-visibility="uncounted">
 <h2>Employment effect</h2>
 
 <img data-src="assets/employment_probit.png" class="r-stretch quarto-figure-center"><p><a href="#/sec-employmentols" class="absolute" data-top="0" data-right="0">Back to employment OLS</a></p>
