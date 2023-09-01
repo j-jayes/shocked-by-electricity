@@ -107,9 +107,11 @@ Why do we care about the second industrial revolution?
 
 [Why only the Western Line?](#sec-westernline){.absolute top=0 right=0}
 
-## Treated and control parishes
+## Treated and control parishes{#sec-tcg}
 
 ![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes.jpeg){fig-align="center"}
+
+[Are the treatment and control groups balanced?](#sec-balance){.absolute top=0 right=0}
 
 ## Location of transformers
 
@@ -126,7 +128,7 @@ Why do we care about the second industrial revolution?
 ![](assets/timeline.png){fig-align="center"}
 
 
-# What did early electrifiers get?{#sec-firststage background-color="#1C9E77"}
+# Did early electrifiers have access to more power?{#sec-firststage background-color="#1C9E77"}
 
 ## Quasi first stage{#sec-firststagelevels}
 
@@ -176,6 +178,13 @@ table <- regression_table %>%
 
 table %>%
   gt() %>%
+    tab_style(
+    style = cell_fill(color = "#C6DBEF"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = c(1, 2)
+    )
+  ) %>%
   cols_label(
     Model1 = md("(1)<br>Total power"),
     Model2 = md("(2)<br>Total power<br>(transformers)"),
@@ -295,6 +304,13 @@ table <- regression_table %>%
 
 table %>%
   gt() %>%
+  tab_style(
+    style = cell_fill(color = "#CCECE6"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = c(1, 2)
+    )
+  ) %>%
   cols_label(
     Model1 = md("(1)<br>Holds an occupation<br>OLS"),
     Model2 = md("(2)<br>Holds an occupation<br>OLS"),
@@ -375,6 +391,13 @@ table <- regression_table %>%
 
 table %>%
   gt() %>%
+    tab_style(
+    style = cell_fill(color = "#D0D1E6"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = c(1, 2)
+    )
+  ) %>%
   cols_label(
     Model1 = md("(1)<br>Log income<br>OLS"),
     Model2 = md("(2)<br>Log income<br>OLS"),
@@ -418,10 +441,6 @@ table %>%
 At the individual level, do we see differences in the income distributions between treated and control individuals?
 
 ![](assets/dot_plot.jpeg){fig-align="center"}
-
-## Inequality effects
-
-At the parish level, do we see a more equal distribution of income among the treated parishes?
 
 # What are the mechanisms that drive these effects?{#sec-mechanisms background-color="#1C9E77"}
 
@@ -500,7 +519,182 @@ ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", w
 
 ```
 
-## 
+## Occupational choice
+
+![](assets/direct_electricity_probit.png){fig-align="center"}
+
+```{r}
+#| eval: false
+
+# Create a tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "0.215***", "0.209***", "0.207***",
+  "(SE)", "(0.02)", "(0.02)", "(0.02)"
+)
+
+# Create a tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Pseudo R-squared", "0.00", "0.07", "0.07",
+  "Observations", "428386", "428386", "428252",
+  "Mean Dependent Var", "0.010", "0.010", "0.010"
+)
+
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status, schooling and occupation", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holding electricity job<br>(Direct)<br>Probit"),
+    Model2 = md("(2)<br>Holding electricity job<br>(Direct)<br>Probit"),
+    Model3 = md("(3)<br>Holding electricity job<br>(Direct)<br>Probit")
+  ) %>%
+  tab_header(
+    title = md("**Occupational choice**"),
+    subtitle = "Holding a direct electricity related job"
+  ) %>%
+  tab_footnote("Robust standard errors in parentheses") %>%
+  tab_style(
+    style = cell_fill(color = "#D4B9DA"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = 1
+    )
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations = cells_body(rows = 5)
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = cells_body(rows = 7)
+  ) %>%
+  tab_options(table.font.size = "80%") %>%
+  cols_align(-Variable, align = c("center")) %>%
+  gtsave("assets/direct_electricity_probit.png")
+```
+
+## Occupational choice
+
+![](assets/indirect_electricity_probit.png){fig-align="center"}
+
+```{r}
+#| eval: false
+
+# Create a tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "0.108***", "0.107***", "0.113***",
+  "(SE)", "(0.01)", "(0.01)", "(0.01)"
+)
+
+# Create a tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Pseudo R-squared", "0.00", "0.01", "0.02",
+  "Observations", "428386", "428386", "428386",
+  "Mean Dependent Var", "0.140", "0.140", "0.140"
+)
+
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status, schooling and occupation", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holding electricity job<br>(Indirect)<br>Probit"),
+    Model2 = md("(2)<br>Holding electricity job<br>(Indirect)<br>Probit"),
+    Model3 = md("(3)<br>Holding electricity job<br>(Indirect)<br>Probit")
+  ) %>%
+  tab_header(
+    title = md("**Occupational choice**"),
+    subtitle = "Holding an indirect electricity related job"
+  ) %>%
+  tab_footnote("Robust standard errors in parentheses") %>%
+  tab_style(
+    style = cell_fill(color = "#D9F0A3"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = 1
+    )
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations = cells_body(rows = 5)
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = cells_body(rows = 7)
+  ) %>%
+  tab_options(table.font.size = "80%") %>%
+  cols_align(-Variable, align = c("center")) %>%
+  gtsave("assets/indirect_electricity_probit.png")
+
+```
+
+## Choice of location
+
+![](assets/choice_of_location.png){fig-align="center" width="60%"} 
+
+## Paper in a graph:
+
+![](assets/job_share_plot.jpeg){fig-align="center"} 
 
 # Findings{#sec-findings background-color="#1C9E77"}
 
@@ -510,17 +704,9 @@ ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", w
 - It lowered inequality 📉🤝
 - It allowed structural change on the labor market 🔧💼
 - It created new kinds of jobs 🤖👩‍🔧
-- It benefitted those in the middle of the skill distribution 🎓🔌
+- It benefited those in the middle of the skill distribution 🎓🔌
 
-## Income was shared more equally in areas that electrified first
-
-![](assets/dot_plot.jpeg){fig-align="center"} 
-
-## What were the mechanisms behind these effects?
-
-![](assets/job_share_plot.jpeg){fig-align="center"} 
-
-##
+## 
 
 ::: {style="text-align: center"}
 
@@ -564,6 +750,121 @@ Questions
 
 ::::
 
+## Are the treatment and control group comparable?{#sec-balance visibility="uncounted"}
+
+![](assets/unmatched_sample_balance.png){fig-align="center"}
+
+```{r}
+#| eval: false
+
+data_tibble <- tibble(
+  Variable = c("shc1", "shc2", "shc3", "shc4", "shc5", "shc6", "shc7", "llabforce", "Total power (kVA)", "Total connections"),
+  Mean_Treatment_Group = c(1.036322, 5.821050, 1.959664, 6.649561, 32.948828, 13.473691, 38.110884, 657.166898, 3419.874332, 6.147059),
+  Mean_Control_Group = c(1.053739, 5.536617, 1.482257, 7.430138, 31.806689, 9.062544, 43.628015, 582.506483, 470.384416, 0.817316),
+  P_Value = c(0.75, 0.15, 0.20, 0.16, 0.15, 0.07, 0.14, 0.04, 0.00, 0.00)
+)
+
+data_tibble %>%
+  mutate(across(where(is.numeric), ~ round(., digits = 2))) %>%
+  gt() %>%
+  cols_label(
+    Mean_Treatment_Group = md("(1)<br>Treatment group<br>mean"),
+    Mean_Control_Group = md("(2)<br>Control group<br>mean"),
+    P_Value = md("(3)<br>P-value")
+  ) %>%
+  tab_header(
+    title = md("**Balance tests**"),
+    subtitle = "Unmatched sample"
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations = cells_body(rows = 9)
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = cells_body(rows = 10)
+  ) %>%
+  tab_options(table.font.size = "80%") %>% 
+  gtsave("assets/unmatched_sample_balance.png")
+
+```
+
+## Are the treatment and control group comparable?{visibility="uncounted"}
+
+![](assets/propensity_score_matching.png){fig-align="center"}
+
+## Are the treatment and control group comparable?{visibility="uncounted"}
+
+![](assets/psm_sample_balance.png){fig-align="center"}
+
+```{r}
+#| eval: false
+
+data_tibble <- tibble(
+  Variable = c("shc1", "shc2", "shc3", "shc4", "shc5", "shc6", "shc7", "llabforce", "Total power (kVA)", "Total connections"),
+  Mean_Treatment_Group = c(1.036322, 5.821050, 1.959664, 6.649561, 32.948828, 13.473691, 38.110884, 657.166898, 3419.874332, 6.147059),
+  Mean_Control_Group = c(1.076733, 5.967782, 1.412026, 7.684917, 43.302865, 10.916724, 29.638953, 655.382231, 1416.679144, 2.098930),
+  P_Value = c(0.53, 0.51, 0.00, 0.00, 0.00, 0.00, 0.00, 0.84, 0.00, 0.00)
+)
+
+data_tibble %>%
+  mutate(across(where(is.numeric), ~ round(., digits = 2))) %>%
+  gt() %>% 
+  cols_label(
+    Mean_Treatment_Group = md("(1)<br>Treatment group<br>mean"),
+    Mean_Control_Group = md("(2)<br>Control group<br>mean"),
+    P_Value = md("(3)<br>P-value")
+  ) %>%
+  tab_header(
+    title = md("**Balance tests**"),
+    subtitle = "Propensity score matched sample"
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations = cells_body(rows = 9)
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = cells_body(rows = 10)
+  ) %>%
+  tab_options(table.font.size = "80%") %>% 
+  gtsave("assets/psm_sample_balance.png")
+
+```
+
+[Back to treatment and control groups](#sec-tcg){.absolute top=0 right=0}
 
 ## Quasi first stage{#sec-firststagelog visibility="uncounted"}
 
@@ -746,4 +1047,14 @@ table %>%
   cols_align(-Variable, align = c("center")) %>% 
   gtsave("assets/employment_probit.png")
 ```
+
+## Common male occupations{visibility="uncounted"}
+
+![](assets/male_jobs.jpg)
+
+
+## Common female occupations{visibility="uncounted"}
+
+![](assets/female_jobs.jpg)
+
 
