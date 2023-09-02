@@ -44,7 +44,55 @@ How does getting access to new technology (electricity) impact your returns on t
 
 # Motivation{#sec-motivation background-color="#1C9E77"}
 
-Why do we care about the second industrial revolution?
+Why do we care about the second industrial revolution in Sweden?
+
+<br>
+
+![](assets/molinder_shares.jpeg){fig-align="center"}
+
+```{r}
+#| eval: false
+
+theme_set(theme_light())
+
+library(showtext)
+library(ggtext)
+## Loading Google fonts (https://fonts.google.com/)
+font_add_google("IBM Plex Mono", "ibm")
+font_add_google("Roboto", "roboto")
+
+showtext_opts(dpi = 300)
+showtext_auto(enable = TRUE)
+
+tibble(year = c(1870, 1880, 1900, 1920, 1940, 1950),
+       `Bottom 50 %` = c(11, 17, 19, 16, 20, 21),
+       `Middle class (P50-P90)` = c(31, 33, 33, 30, 44, 46),
+       `Top (P90-P100)` = c(56, 50, 48, 53, 36, 32)) %>% 
+  pivot_longer(- year) %>% 
+  ggplot(aes(year, value, colour = name)) +
+  geom_point(cex = 4) +
+  geom_line(cex = 2) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(0, NA)) +
+  gghighlight::gghighlight() +
+  labs(x = NULL,
+       y = "Share of income",
+       title = "Shares of Income in Sweden, 1870–1950",
+       subtitle = "Source: Bengtsson, Molinder, Prado (2021)") +
+  theme(
+    # panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.title = element_markdown(size = 32, family = 'roboto'),
+    plot.title.position = "plot",
+    legend.position = "none",
+    text = element_text(family = 'ibm', size = 18)
+  ) 
+
+ggsave(filename = here::here("assets/molinder_shares.jpeg"), device = "jpeg", width = 220, height = 160, units = "mm", dpi = 300)
+
+```
+
 
 ## New electrical machinery in agriculture
 
