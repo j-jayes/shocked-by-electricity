@@ -46,9 +46,36 @@ How does getting access to new technology (electricity) impact your returns on t
 
 Why do we care about the second industrial revolution in Sweden?
 
+
+
 <br>
 
-![](assets/molinder_shares.jpeg){fig-align="center"}
+
+:::: {.columns}
+
+::: {.column width="45%"}
+![](assets/molinder_shares.jpeg){fig-align="center" width=100%}
+
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+Other literature: 
+
+In the US Gray (2013) -> manufacturing technological change is unskill-biased - “hollowing out”.
+
+In Sweden, Molinder, Karlsson and Enflo (2021): electrification -> stronger bargaining position for workers – “hollowing in”
+
+In Sweden, Heikkuri and Prado are looking at skill-bias and electrification with establishment and industry level data.
+
+:::
+
+::::
+
+
 
 ```{r}
 #| eval: false
@@ -284,6 +311,25 @@ Our sample comprises everyone in the 1930 census who:
 Treated individuals were:
 
 - Born in a parish with early access to new technology by virtue of being on the Western Line.
+
+## Regression specification
+
+On a cross section with rich data on 484,000 individuals:
+
+
+$$\text{Outcome}_i = \beta_0 + \beta_1 \text{`Born in treated parish`}_i + \beta_2 \textbf{Controls}_i + \epsilon_i$$
+
+
+Where $$\beta_1$$ is the coefficient of interest and the controls include:
+
+- Age and age squared
+
+- Gender
+
+- HISCLASS (grouped into 7 categories)
+
+- Schooling (years of education)
+
 
 ## Employment effects{#sec-employmentols}
 
