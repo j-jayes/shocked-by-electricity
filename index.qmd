@@ -1,6 +1,6 @@
 ---
-title: "Shocked by electricity: The impact of new technology on individuals and local labour markets"
-subtitle: "EHES Vienna 2023 -Session 7 Room 8"
+title: "Power for progress: The impact of electricity on individual labor market outcomes"
+subtitle: "Midway Seminar - 24-01-2024"
 author: 
   - "Jonathan Jayes  - Lund University"
   - "Kerstin Enflo - Lund University"
@@ -42,7 +42,7 @@ How does getting access to new technology (electricity) impact your returns on t
 - Occupational choice, and 
 - Choice on where to locate?
 
-# Motivation{#sec-motivation background-color="#1C9E77"}
+# Motivation{#sec-motivation}
 
 Why do we care about the second industrial revolution in Sweden?
 
@@ -121,200 +121,40 @@ ggsave(filename = here::here("assets/molinder_shares.jpeg"), device = "jpeg", wi
 ```
 
 
-## New electrical machinery in agriculture
+## New electrical machinery in agriculture and manufacturing
+
+::: {layout-ncol=2}
+
 
 ![](assets/2IR_1.JPG){fig-align="center"}
 
-## New electrical machinery in manufacturing{visibility="uncounted"}
-
 ![](assets/2IR_2.JPG){fig-align="center"}
+
+:::
 
 ## New technology with rapid adoption in Sweden
 
 ![](assets/schon-energy-share.jpeg){fig-align="center"}
 
-# Who were the early electrifiers in Sweden?{#sec-early background-color="#1C9E77"}
 
-## How do we know who the early electrifiers in Sweden were?
+## Who were the early electrifiers in Sweden?{#sec-tcg}
 
-<br>
+![](assets/01-treated-and-control-group.jpeg){fig-align="center"}
 
-:::: {.columns}
+# Did early electrifiers have access to more power?{#sec-firststage background-color="#1C9E77" visibilty="uncounted"}
 
-::: {.column width="50%"}
+## Shocked?{#sec-firststagelevels}
 
-#### Individual level census data
+Treated parishes have access to more electricity (KvA), controlling for parish area and population.
 
-![](assets/1930_census.png){fig-align="center"}
+![](assets/shock_table.png){fig-align="center"}
 
-:::
-
-::: {.column width="50%"}
-
-#### Geographical variation in electrification
-
-![](assets/electricity_map.png){fig-align="center"}
-
-
-:::
-
-::::
-
-## Who were the early electrifiers in Sweden?
-
-![](assets/map_big_power_stations.jpeg){fig-align="center"}
-
-## Grid 1900
-
-![](assets/map_big_power_stations_line_1900.jpeg){fig-align="center"}
-
-## Grid 1911
-
-![](assets/map_big_power_stations_line_1911.jpeg){fig-align="center"}
-
-## Grid 1926
-
-![](assets/map_big_power_stations_line_1926.jpeg){fig-align="center"}
-
-## Treated parishes along the 'Western Line'{#sec-treatedparishes}
-
-![](assets/map_big_power_stations_line_1926_with_treated_parishes.jpeg){fig-align="center"}
-
-[Why only the Western Line?](#sec-westernline){.absolute top=0 right=0}
-
-## Treated and control parishes{#sec-tcg}
-
-![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes.jpeg){fig-align="center"}
-
-[Are the treatment and control groups balanced?](#sec-balance){.absolute top=0 right=0}
-
-## Location of transformers
-
-![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_transformers.jpeg){fig-align="center"}
-
-## Location of hydro plants{#sec-hydopower}
-
-![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_hydro.jpeg){fig-align="center"}
-
-[What about other sources of power like coal and diesel turbines?](#sec-otherpower){.absolute top=0 right=0}
-
-## Timeline of grid rollout
-
-![](assets/timeline.png){fig-align="center"}
-
-
-# Did early electrifiers have access to more power?{#sec-firststage background-color="#1C9E77"}
-
-## Quasi first stage{#sec-firststagelevels}
-
-Treated parishes have access to more electricity (KvA), controlling for parish area and population. 
-
-![](assets/first_stage_levels.png){fig-align="center"}
-
-
-```{r, eval=FALSE}
-library(tidyverse)
-library(gt)
-
-regression_table <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Treated parishes", "1303.562***", "1343.307***", "-39.745",
-  "(SE)", "(348.95)", "(339.95)", "(72.49)",
-  "Parish area in square kilometers", "0.000", "0.000", "-0.000",
-  "(SE)", "(0.00)", "(0.00)", "(0.00)",
-  "Parish population in 1900", "0.147***", "0.140***", "0.007",
-  "(SE)", "(0.03)", "(0.03)", "(0.01)",
-  "Constant", "13.580", "-60.639", "74.219*",
-  "(SE)", "(145.55)", "(141.80)", "(30.24)"
-)
-
-# Create the tibble for additional statistics
-additional_stats <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "R-squared", "0.02", "0.02", "0.00",
-  "Observations", "1792", "1792", "1792",
-  "F-stat", "14.009", "14.208", "0.642",
-  "Mean Dependent Var", "514.24", "437.36", "76.88"
-)
-
-
-controls <-
-  tribble(
-    ~Variable, ~Model1, ~Model2, ~Model3,
-    "Parish area in square kilometers", "Yes", "Yes", "Yes",
-    "Parish population in 1900", "Yes", "Yes", "Yes"
-  )
-
-
-table <- regression_table %>% 
-  filter(row_number() %in% c(1, 2)) %>% 
-  bind_rows(controls) %>% 
-  bind_rows(additional_stats)
-
-table %>%
-  gt() %>%
-    tab_style(
-    style = cell_fill(color = "#C6DBEF"),
-    locations = cells_body(
-      columns = !Variable,
-      rows = c(1, 2)
-    )
-  ) %>%
-  cols_label(
-    Model1 = md("(1)<br>Total power"),
-    Model2 = md("(2)<br>Total power<br>(transformers)"),
-    Model3 = md("(3)<br>Total power<br>(generators)")
-  ) %>% 
-  tab_header(title = md("**Quasi first stage**"),
-             subtitle = "Total power (levels)") %>% 
-  tab_footnote("Robust standard errors in parentheses") %>% 
-  tab_style(
-    style = cell_borders(
-      sides = c("t", "b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = list(cells_column_labels(), cells_stubhead())
-  ) %>% 
-    tab_style(
-    style = cell_borders(
-      sides = c("t"),
-      color = "grey60",
-      weight = px(2.5)
-    ),
-    locations =  cells_body(rows = 5)
-  ) %>% 
-    tab_style(
-    style = cell_borders(
-      sides = c("b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations =  cells_body(rows = 8)
-  ) %>% 
-  tab_options(table.font.size = "80%") %>% 
-  cols_align(-Variable, align = c("center")) %>% 
-  gtsave("assets/first_stage_levels.png")
-```
-
-[What about logging the outcome variable?](#sec-firststagelog){.absolute top=0 right=0}
 
 # What happened to early electrifiers in Sweden?{#sec-happened background-color="#1C9E77"}
 
-## Who is a treated individual?
-
-Our sample comprises everyone in the 1930 census who:
-
-- Is between `15 and 40 years of age` in 1930
-- Lives within `250 km of the Western Line`
-
-Treated individuals were:
-
-- Born in a parish with early access to new technology by virtue of being on the Western Line.
-
 ## Regression specification
 
-On a cross section with rich data on 484,000 individuals:
+On a cross section with rich data on 343,000 individuals:
 
 
 $$\text{Outcome}_i = \beta_0 + \beta_1 \text{`Born in treated parish`}_i + \beta_2 \textbf{Controls}_i + \epsilon_i$$
@@ -328,467 +168,57 @@ Where $$\beta_1$$ is the coefficient of interest and the controls include:
 
 - HISCLASS (grouped into 7 categories)
 
-- Schooling (years of education)
+- Education
 
 
 ## Employment effects{#sec-employmentols}
 
-If new technology automated away tasks, do we see lower rates of individuals `recording an occupation?`
+If new technology automated away tasks, do we see lower rates of individuals `recording an occupation`?
 
-![](assets/employment_OLS.png){fig-align="center"}
+![](assets/employment_effect.png){fig-align="center"}
 
-[What about using a probit?](#sec-employmentprobit){.absolute top=0 right=0}
-
-
-```{r, eval=FALSE}
-# Create the tibble for the regression coefficients and standard errors
-regression_table <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Birth Parish (Treated)", "-0.005*", "-0.004*", "0.002",
-  "(SE)", "(0.00)", "(0.00)", "(0.00)",
-  "Age", NA, "0.047***", "0.067***",
-  "(SE)", NA, "(0.00)", "(0.00)",
-  "Age Squared", NA, "-0.001***", "-0.001***",
-  "(SE)", NA, "(0.00)", "(0.00)",
-  "Female (1 = Yes 0 = No)", NA, "-0.463***", "-0.443***",
-  "(SE)", NA, "(0.00)", "(0.00)",
-  "Divorced", NA, NA, "0.000",
-  "(SE)", NA, NA, "(.)",
-  "Married", NA, NA, "-0.367***",
-  "(SE)", NA, NA, "(0.01)",
-  "Other", NA, NA, "-0.112",
-  "(SE)", NA, NA, "(0.19)",
-  "Unmarried", NA, NA, "-0.052***",
-  "(SE)", NA, NA, "(0.01)",
-  "Widow/Widower", NA, NA, "0.045***",
-  "(SE)", NA, NA, "(0.01)",
-  "Literate", NA, NA, "0.000",
-  "(SE)", NA, NA, "(.)",
-  "Post primary schooling", NA, NA, "0.265***",
-  "(SE)", NA, NA, "(0.02)",
-  "Post-secondary and university", NA, NA, "0.242***",
-  "(SE)", NA, NA, "(0.03)",
-  "Primary school", NA, NA, "0.286***",
-  "(SE)", NA, NA, "(0.02)",
-  "Constant", "0.630***", "0.264***", "-0.285***",
-  "(SE)", "(0.00)", "(0.01)", "(0.03)"
-)
-
-# Create the tibble for additional statistics
-additional_stats <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "R-squared", "0.00", "0.24", "0.30",
-  "Observations", "770075", "770075", "770075",
-  "F-stat", "5.506", "61936.779", "37819.375",
-  "Mean Dependent Var", "0.63", "0.63", "0.63"
-)
-
-controls <-
-  tribble(
-    ~Variable, ~Model1, ~Model2, ~Model3,
-    "Age and gender", "", "Yes", "Yes",
-    "Marital status and schooling", "", "", "Yes"
-  )
-
-
-table <- regression_table %>% 
-  filter(row_number() %in% c(1, 2)) %>% 
-  bind_rows(controls) %>% 
-  bind_rows(additional_stats)
-
-table %>%
-  gt() %>%
-  tab_style(
-    style = cell_fill(color = "#CCECE6"),
-    locations = cells_body(
-      columns = !Variable,
-      rows = c(1, 2)
-    )
-  ) %>%
-  cols_label(
-    Model1 = md("(1)<br>Holds an occupation<br>OLS"),
-    Model2 = md("(2)<br>Holds an occupation<br>OLS"),
-    Model3 = md("(3)<br>Holds an occupation<br>OLS")
-  ) %>% 
-  tab_header(title = md("**Employment effect**"),
-             subtitle = "Likelihood of recording an occupation") %>% 
-  tab_footnote("Robust standard errors in parentheses") %>% 
-  tab_style(
-    style = cell_borders(
-      sides = c("t", "b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = list(cells_column_labels(), cells_stubhead())
-  ) %>% 
-    tab_style(
-    style = cell_borders(
-      sides = c("t"),
-      color = "grey60",
-      weight = px(2.5)
-    ),
-    locations =  cells_body(rows = 5)
-  ) %>% 
-    tab_style(
-    style = cell_borders(
-      sides = c("b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations =  cells_body(rows = 8)
-  ) %>% 
-  tab_options(table.font.size = "80%") %>% 
-  cols_align(-Variable, align = c("center")) %>% 
-  gtsave("assets/employment_OLS.png")
-```
 
 ## Income effects
 
 Do individuals with access to new technology have `higher incomes` than their control parish born comrades?
 
-![](assets/income_OLS.png){fig-align="center"}
+![](assets/income_effect.png){fig-align="center"}
 
+## Income effects across the distribution
 
-```{r, eval=FALSE}
-# Load the tibble package
-library(tibble)
+Where in the income distribution do we see the `largest effects`?
 
-# Create a tibble for the regression coefficients and standard errors
-regression_table <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Birth Parish (Treated)", "0.373***", "0.312***", "0.277***",
-  "(SE)", "(0.01)", "(0.01)", "(0.01)"
-)
+![](assets/04-coefficient-plot-treated-by-income.jpeg){fig-align="center"}
 
-# Create a tibble for additional statistics
-additional_stats <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "R-squared", "0.00", "0.10", "0.14",
-  "Observations", "484516", "484516", "484516",
-  "F-stat", "647.540", "12447.974", "4575.841",
-  "Mean Dependent Var", "5.75", "5.75", "5.75"
-)
-
-
-controls <-
-  tribble(
-    ~Variable, ~Model1, ~Model2, ~Model3,
-    "Age and gender", "", "Yes", "Yes",
-    "Marital status, schooling and occupation", "", "", "Yes"
-  )
-
-
-table <- regression_table %>% 
-  filter(row_number() %in% c(1, 2)) %>% 
-  bind_rows(controls) %>% 
-  bind_rows(additional_stats)
-
-table %>%
-  gt() %>%
-    tab_style(
-    style = cell_fill(color = "#D0D1E6"),
-    locations = cells_body(
-      columns = !Variable,
-      rows = c(1, 2)
-    )
-  ) %>%
-  cols_label(
-    Model1 = md("(1)<br>Log income<br>OLS"),
-    Model2 = md("(2)<br>Log income<br>OLS"),
-    Model3 = md("(3)<br>Log income<br>OLS")
-  ) %>% 
-  tab_header(title = md("**Income effect**"),
-             subtitle = "Log of income") %>% 
-  tab_footnote("Robust standard errors in parentheses") %>% 
-  tab_style(
-    style = cell_borders(
-      sides = c("t", "b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = list(cells_column_labels(), cells_stubhead())
-  ) %>% 
-    tab_style(
-    style = cell_borders(
-      sides = c("t"),
-      color = "grey60",
-      weight = px(2.5)
-    ),
-    locations =  cells_body(rows = 5)
-  ) %>% 
-    tab_style(
-    style = cell_borders(
-      sides = c("b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations =  cells_body(rows = 8)
-  ) %>% 
-  tab_options(table.font.size = "80%") %>% 
-  cols_align(-Variable, align = c("center")) %>% 
-  gtsave("assets/income_OLS.png")
-```
 
 
 ## Inequality effects
 
-At the individual level, do we see differences in the income distributions between treated and control individuals?
+At the parish level, do we see differences in the `income distributions` between treated and control earners?
 
-![](assets/dot_plot.jpeg){fig-align="center"}
+![](assets/071-inequality-plot.jpeg){fig-align="center"}
 
 # What are the mechanisms that drive these effects?{#sec-mechanisms background-color="#1C9E77"}
 
-## New kinds of occupations created
+## Occupational selection into electricity related jobs
 
-![](assets/new_jobs_1930.jpeg){fig-align="center"}
+![](assets/electricity_jobs.png){fig-align="center"}
 
-## How do we classify these occupations?
+## The importance of education
 
-3 categories of jobs:
+![](assets/09-coefficient-plot-education.jpeg){fig-align="center" width="60%"}
 
-![](assets/common_job_types.jpeg){fig-align="center"}
+## Do you need to move to find the right job?
 
-```{r, eval=FALSE}
-# Load the required package
-library(tidyverse)
-theme_set(theme_light())
-library(ggtext)
-library(showtext)
-## Loading Google fonts (https://fonts.google.com/)
-font_add_google("IBM Plex Mono", "ibm")
-font_add_google("Roboto", "roboto")
+![](assets/movers.png){fig-align="center"}
 
-showtext_opts(dpi = 300)
-showtext_auto(enable = TRUE)
-library(tidytext)
+## How does union membership play a role?
 
-# Create the tibble with translated occupations
-translated_tibble <- tribble(
-  ~job_type,               ~yrke.y_translated,     ~n,
-  "Direct electricity job", "electrician",         676,
-  "Direct electricity job", "electricity installer",471,
-  "Direct electricity job", "electricity worker",   80,
-  "Direct electricity job", "electricity machinist",51,
-  "Direct electricity job", "electrical installer", 20,
-  "Direct electricity job", "electrician installer",19,
-  "Indirect electricity job","textile worker",    4145,
-  "Indirect electricity job","sawmill worker",    2958,
-  "Indirect electricity job","factory worker",    2401,
-  "Indirect electricity job","carpentry worker",  2134,
-  "Indirect electricity job","blacksmith",        1511,
-  "Indirect electricity job","saw worker",        1495,
-  "Other job",                "landowner",       65033,
-  "Other job",                "agricultural worker",54374,
-  "Other job",                "house daughter",   28886,
-  "Other job",                "domestic helper",  18461,
-  "Other job",                "housekeeper",      17913,
-  "Other job",                "maid",             17415
-)
-
-translated_tibble %>% 
-  mutate(yrke.y_translated = str_to_title(yrke.y_translated),
-         yrke.y_translated = reorder_within(yrke.y_translated, n, job_type)) %>% 
-  ggplot(aes(n, yrke.y_translated, fill = job_type)) +
-  geom_col() +
-  scale_fill_brewer(palette = "Dark2") +
-  facet_wrap(vars(job_type), scales = "free", nrow = 3) +
-  scale_y_reordered() +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "Most common titles for the three job types",
-    fill = NULL
-  ) +
-  theme(
-    # panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    plot.title = element_markdown(size = 18, family = 'roboto'),
-    plot.title.position = "plot",
-    legend.position = "none",
-    text = element_text(family = 'ibm', size = 12)
-  )
-
-ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", width = 8, height = 4, units = "in")
-
-```
-
-## Occupational choice
-
-![](assets/direct_electricity_probit.png){fig-align="center"}
-
-```{r}
-#| eval: false
-
-# Create a tibble for the regression coefficients and standard errors
-regression_table <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Birth Parish (Treated)", "0.215***", "0.209***", "0.207***",
-  "(SE)", "(0.02)", "(0.02)", "(0.02)"
-)
-
-# Create a tibble for additional statistics
-additional_stats <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Pseudo R-squared", "0.00", "0.07", "0.07",
-  "Observations", "428386", "428386", "428252",
-  "Mean Dependent Var", "0.010", "0.010", "0.010"
-)
-
-
-controls <-
-  tribble(
-    ~Variable, ~Model1, ~Model2, ~Model3,
-    "Age and gender", "", "Yes", "Yes",
-    "Marital status, schooling and occupation", "", "", "Yes"
-  )
-
-
-table <- regression_table %>% 
-  filter(row_number() %in% c(1, 2)) %>% 
-  bind_rows(controls) %>% 
-  bind_rows(additional_stats)
-
-table %>%
-  gt() %>%
-  cols_label(
-    Model1 = md("(1)<br>Holding electricity job<br>(Direct)<br>Probit"),
-    Model2 = md("(2)<br>Holding electricity job<br>(Direct)<br>Probit"),
-    Model3 = md("(3)<br>Holding electricity job<br>(Direct)<br>Probit")
-  ) %>%
-  tab_header(
-    title = md("**Occupational choice**"),
-    subtitle = "Holding a direct electricity related job"
-  ) %>%
-  tab_footnote("Robust standard errors in parentheses") %>%
-  tab_style(
-    style = cell_fill(color = "#D4B9DA"),
-    locations = cells_body(
-      columns = !Variable,
-      rows = 1
-    )
-  ) %>%
-  tab_style(
-    style = cell_borders(
-      sides = c("t", "b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = list(cells_column_labels(), cells_stubhead())
-  ) %>%
-  tab_style(
-    style = cell_borders(
-      sides = c("t"),
-      color = "grey60",
-      weight = px(2.5)
-    ),
-    locations = cells_body(rows = 5)
-  ) %>%
-  tab_style(
-    style = cell_borders(
-      sides = c("b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = cells_body(rows = 7)
-  ) %>%
-  tab_options(table.font.size = "80%") %>%
-  cols_align(-Variable, align = c("center")) %>%
-  gtsave("assets/direct_electricity_probit.png")
-```
-
-## Occupational choice
-
-![](assets/indirect_electricity_probit.png){fig-align="center"}
-
-```{r}
-#| eval: false
-
-# Create a tibble for the regression coefficients and standard errors
-regression_table <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Birth Parish (Treated)", "0.108***", "0.107***", "0.113***",
-  "(SE)", "(0.01)", "(0.01)", "(0.01)"
-)
-
-# Create a tibble for additional statistics
-additional_stats <- tribble(
-  ~Variable, ~Model1, ~Model2, ~Model3,
-  "Pseudo R-squared", "0.00", "0.01", "0.02",
-  "Observations", "428386", "428386", "428386",
-  "Mean Dependent Var", "0.140", "0.140", "0.140"
-)
-
-
-controls <-
-  tribble(
-    ~Variable, ~Model1, ~Model2, ~Model3,
-    "Age and gender", "", "Yes", "Yes",
-    "Marital status, schooling and occupation", "", "", "Yes"
-  )
-
-
-table <- regression_table %>% 
-  filter(row_number() %in% c(1, 2)) %>% 
-  bind_rows(controls) %>% 
-  bind_rows(additional_stats)
-
-table %>%
-  gt() %>%
-  cols_label(
-    Model1 = md("(1)<br>Holding electricity job<br>(Indirect)<br>Probit"),
-    Model2 = md("(2)<br>Holding electricity job<br>(Indirect)<br>Probit"),
-    Model3 = md("(3)<br>Holding electricity job<br>(Indirect)<br>Probit")
-  ) %>%
-  tab_header(
-    title = md("**Occupational choice**"),
-    subtitle = "Holding an indirect electricity related job"
-  ) %>%
-  tab_footnote("Robust standard errors in parentheses") %>%
-  tab_style(
-    style = cell_fill(color = "#D9F0A3"),
-    locations = cells_body(
-      columns = !Variable,
-      rows = 1
-    )
-  ) %>%
-  tab_style(
-    style = cell_borders(
-      sides = c("t", "b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = list(cells_column_labels(), cells_stubhead())
-  ) %>%
-  tab_style(
-    style = cell_borders(
-      sides = c("t"),
-      color = "grey60",
-      weight = px(2.5)
-    ),
-    locations = cells_body(rows = 5)
-  ) %>%
-  tab_style(
-    style = cell_borders(
-      sides = c("b"),
-      color = "grey60",
-      weight = px(3)
-    ),
-    locations = cells_body(rows = 7)
-  ) %>%
-  tab_options(table.font.size = "80%") %>%
-  cols_align(-Variable, align = c("center")) %>%
-  gtsave("assets/indirect_electricity_probit.png")
-
-```
-
-## Choice of location
-
-![](assets/choice_of_location.png){fig-align="center" width="60%"} 
+![](assets/081-union-density-effect-5th-95th-percentiles.jpeg){fig-align="center" width="60%"}
 
 ## Paper in a graph:
 
-![](assets/job_share_plot.jpeg){fig-align="center"} 
+![](assets/06-job_share_plot.jpeg){fig-align="center"} 
 
 # Findings{#sec-findings background-color="#1C9E77"}
 
@@ -810,7 +240,8 @@ table %>%
 <br>
 <br>
 
-Questions
+Moving to Paper 2
+
 :::
 
 # Appendix{#sec-appendix background-color="#D95F02" visibility="uncounted"}
@@ -1152,3 +583,308 @@ table %>%
 ![](assets/female_jobs.jpg)
 
 
+## How do we know who the early electrifiers in Sweden were?{visibility="uncounted"}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+#### Individual level census data
+
+![](assets/1930_census.png){fig-align="center"}
+
+:::
+
+::: {.column width="50%"}
+
+#### Geographical variation in electrification
+
+![](assets/electricity_map.png){fig-align="center"}
+
+
+:::
+
+::::
+
+## Who were the early electrifiers in Sweden?{visibility="uncounted"}
+
+![](assets/map_big_power_stations.jpeg){fig-align="center"}
+
+## Grid 1900{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1900.jpeg){fig-align="center"}
+
+## Grid 1911{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1911.jpeg){fig-align="center"}
+
+## Grid 1926{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1926.jpeg){fig-align="center"}
+
+[Why only the Western Line?](#sec-westernline){.absolute top=0 right=0}
+
+## Location of transformers{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1926_with_treated_and_control_parishes_and_transformers.jpeg){fig-align="center"}
+
+
+[What about other sources of power like coal and diesel turbines?](#sec-otherpower){.absolute top=0 right=0}
+
+## Timeline of grid rollout{visibility="uncounted"}
+
+![](assets/timeline.png){fig-align="center"}
+
+
+## New kinds of occupations created{visibility="uncounted"}
+
+![](assets/new_jobs_1930.jpeg){fig-align="center"}
+
+
+## How do we classify these occupations?{visibility="uncounted"}
+
+3 categories of jobs:
+
+![](assets/common_job_types.jpeg){fig-align="center"}
+
+```{r, eval=FALSE}
+# Load the required package
+library(tidyverse)
+theme_set(theme_light())
+library(ggtext)
+library(showtext)
+## Loading Google fonts (https://fonts.google.com/)
+font_add_google("IBM Plex Mono", "ibm")
+font_add_google("Roboto", "roboto")
+
+showtext_opts(dpi = 300)
+showtext_auto(enable = TRUE)
+library(tidytext)
+
+# Create the tibble with translated occupations
+translated_tibble <- tribble(
+  ~job_type,               ~yrke.y_translated,     ~n,
+  "Direct electricity job", "electrician",         676,
+  "Direct electricity job", "electricity installer",471,
+  "Direct electricity job", "electricity worker",   80,
+  "Direct electricity job", "electricity machinist",51,
+  "Direct electricity job", "electrical installer", 20,
+  "Direct electricity job", "electrician installer",19,
+  "Indirect electricity job","textile worker",    4145,
+  "Indirect electricity job","sawmill worker",    2958,
+  "Indirect electricity job","factory worker",    2401,
+  "Indirect electricity job","carpentry worker",  2134,
+  "Indirect electricity job","blacksmith",        1511,
+  "Indirect electricity job","saw worker",        1495,
+  "Other job",                "landowner",       65033,
+  "Other job",                "agricultural worker",54374,
+  "Other job",                "house daughter",   28886,
+  "Other job",                "domestic helper",  18461,
+  "Other job",                "housekeeper",      17913,
+  "Other job",                "maid",             17415
+)
+
+translated_tibble %>% 
+  mutate(yrke.y_translated = str_to_title(yrke.y_translated),
+         yrke.y_translated = reorder_within(yrke.y_translated, n, job_type)) %>% 
+  ggplot(aes(n, yrke.y_translated, fill = job_type)) +
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_wrap(vars(job_type), scales = "free", nrow = 3) +
+  scale_y_reordered() +
+  labs(
+    x = NULL,
+    y = NULL,
+    title = "Most common titles for the three job types",
+    fill = NULL
+  ) +
+  theme(
+    # panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.title = element_markdown(size = 18, family = 'roboto'),
+    plot.title.position = "plot",
+    legend.position = "none",
+    text = element_text(family = 'ibm', size = 12)
+  )
+
+ggsave(filename = here::here("assets/common_job_types.jpeg"), device = "jpeg", width = 8, height = 4, units = "in")
+
+```
+
+## Occupational choice{visibility="uncounted"}
+
+![](assets/direct_electricity_probit.png){fig-align="center"}
+
+```{r}
+#| eval: false
+
+# Create a tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "0.215***", "0.209***", "0.207***",
+  "(SE)", "(0.02)", "(0.02)", "(0.02)"
+)
+
+# Create a tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Pseudo R-squared", "0.00", "0.07", "0.07",
+  "Observations", "428386", "428386", "428252",
+  "Mean Dependent Var", "0.010", "0.010", "0.010"
+)
+
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status, schooling and occupation", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holding electricity job<br>(Direct)<br>Probit"),
+    Model2 = md("(2)<br>Holding electricity job<br>(Direct)<br>Probit"),
+    Model3 = md("(3)<br>Holding electricity job<br>(Direct)<br>Probit")
+  ) %>%
+  tab_header(
+    title = md("**Occupational choice**"),
+    subtitle = "Holding a direct electricity related job"
+  ) %>%
+  tab_footnote("Robust standard errors in parentheses") %>%
+  tab_style(
+    style = cell_fill(color = "#D4B9DA"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = 1
+    )
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations = cells_body(rows = 5)
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = cells_body(rows = 7)
+  ) %>%
+  tab_options(table.font.size = "80%") %>%
+  cols_align(-Variable, align = c("center")) %>%
+  gtsave("assets/direct_electricity_probit.png")
+```
+
+## Occupational choice{visibility="uncounted"}
+
+![](assets/indirect_electricity_probit.png){fig-align="center"}
+
+```{r}
+#| eval: false
+
+# Create a tibble for the regression coefficients and standard errors
+regression_table <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Birth Parish (Treated)", "0.108***", "0.107***", "0.113***",
+  "(SE)", "(0.01)", "(0.01)", "(0.01)"
+)
+
+# Create a tibble for additional statistics
+additional_stats <- tribble(
+  ~Variable, ~Model1, ~Model2, ~Model3,
+  "Pseudo R-squared", "0.00", "0.01", "0.02",
+  "Observations", "428386", "428386", "428386",
+  "Mean Dependent Var", "0.140", "0.140", "0.140"
+)
+
+
+controls <-
+  tribble(
+    ~Variable, ~Model1, ~Model2, ~Model3,
+    "Age and gender", "", "Yes", "Yes",
+    "Marital status, schooling and occupation", "", "", "Yes"
+  )
+
+
+table <- regression_table %>% 
+  filter(row_number() %in% c(1, 2)) %>% 
+  bind_rows(controls) %>% 
+  bind_rows(additional_stats)
+
+table %>%
+  gt() %>%
+  cols_label(
+    Model1 = md("(1)<br>Holding electricity job<br>(Indirect)<br>Probit"),
+    Model2 = md("(2)<br>Holding electricity job<br>(Indirect)<br>Probit"),
+    Model3 = md("(3)<br>Holding electricity job<br>(Indirect)<br>Probit")
+  ) %>%
+  tab_header(
+    title = md("**Occupational choice**"),
+    subtitle = "Holding an indirect electricity related job"
+  ) %>%
+  tab_footnote("Robust standard errors in parentheses") %>%
+  tab_style(
+    style = cell_fill(color = "#D9F0A3"),
+    locations = cells_body(
+      columns = !Variable,
+      rows = 1
+    )
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t", "b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = list(cells_column_labels(), cells_stubhead())
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("t"),
+      color = "grey60",
+      weight = px(2.5)
+    ),
+    locations = cells_body(rows = 5)
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("b"),
+      color = "grey60",
+      weight = px(3)
+    ),
+    locations = cells_body(rows = 7)
+  ) %>%
+  tab_options(table.font.size = "80%") %>%
+  cols_align(-Variable, align = c("center")) %>%
+  gtsave("assets/indirect_electricity_probit.png")
+
+```
+
+
+
+## Choice of location{visibility="uncounted"}
+
+![](assets/choice_of_location.png){fig-align="center" width="60%"} 
