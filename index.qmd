@@ -123,23 +123,33 @@ ggsave(filename = here::here("assets/molinder_shares.jpeg"), device = "jpeg", wi
 
 ## New electrical machinery in agriculture and manufacturing
 
-::: {layout-ncol=2}
+![](assets/2IR_1.JPG){fig-align="center" width="60%"}
 
-
-![](assets/2IR_1.JPG){fig-align="center"}
-
-![](assets/2IR_2.JPG){fig-align="center"}
-
-:::
+![](assets/2IR_2.JPG){fig-align="center" width="60%"}
 
 ## New technology with rapid adoption in Sweden
 
 ![](assets/schon-energy-share.jpeg){fig-align="center"}
 
+## Who were the early electrifiers in Sweden?{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1900.jpeg){fig-align="center"}
+
+## Who were the early electrifiers in Sweden?{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1911.jpeg){fig-align="center"}
+
+## Who were the early electrifiers in Sweden?{visibility="uncounted"}
+
+![](assets/map_big_power_stations_line_1926.jpeg){fig-align="center"}
 
 ## Who were the early electrifiers in Sweden?{#sec-tcg}
 
 ![](assets/01-treated-and-control-group.jpeg){fig-align="center"}
+
+## Are the treated and control groups comparable?{visibilty="uncounted"}
+
+![](assets/balancing_table.png){fig-align="center"}
 
 # Did early electrifiers have access to more power?{#sec-firststage background-color="#1C9E77" visibilty="uncounted"}
 
@@ -211,10 +221,6 @@ At the parish level, do we see differences in the `income distributions` between
 ## Do you need to move to find the right job?
 
 ![](assets/movers.png){fig-align="center"}
-
-## How does union membership play a role?
-
-![](assets/081-union-density-effect-5th-95th-percentiles.jpeg){fig-align="center" width="60%"}
 
 ## Paper in a graph:
 
@@ -888,3 +894,7 @@ table %>%
 ## Choice of location{visibility="uncounted"}
 
 ![](assets/choice_of_location.png){fig-align="center" width="60%"} 
+
+## How does union membership play a role?{visibility="uncounted"}
+
+![](assets/081-union-density-effect-5th-95th-percentiles.jpeg){fig-align="center" width="60%"}
