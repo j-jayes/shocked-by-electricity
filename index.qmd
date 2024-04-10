@@ -1,10 +1,10 @@
 ---
 title: "Power for progress: The impact of electricity on individual labor market outcomes"
-subtitle: "Midway Seminar - 24-01-2024"
+date: today
 author: 
-  - "Jonathan Jayes  - Lund University"
-  - "Kerstin Enflo - Lund University"
   - "Jakob Molinder - Uppsala University"
+  - "Kerstin Enflo - Lund University"
+  - "Jonathan Jayes  - Lund University"
 title-slide-attributes:
   data-background-image: "assets/preview_wide.png"
   data-background-position: "bottom 10"
@@ -54,7 +54,9 @@ Why do we care about the second industrial revolution in Sweden?
 :::: {.columns}
 
 ::: {.column width="45%"}
-![](assets/molinder_shares.jpeg){fig-align="center" width=100%}
+<!-- ![](assets/molinder_shares.jpeg){fig-align="center" width=100%} -->
+
+![](assets/00-electrification_and_inequality_line_and_stacked_bar_secondary_axis.png){fig-align="center" width=100%}
 
 :::
 
@@ -149,7 +151,7 @@ ggsave(filename = here::here("assets/molinder_shares.jpeg"), device = "jpeg", wi
 
 ## Are the treated and control groups comparable?{visibilty="uncounted"}
 
-![](assets/balancing_table.png){fig-align="center"}
+![](assets/balance.png){fig-align="center"}
 
 # Did early electrifiers have access to more power?{#sec-firststage background-color="#1C9E77" visibilty="uncounted"}
 
@@ -185,14 +187,14 @@ Where $$\beta_1$$ is the coefficient of interest and the controls include:
 
 If new technology automated away tasks, do we see lower rates of individuals `recording an occupation`?
 
-![](assets/employment_effect.png){fig-align="center"}
+![](assets/employment.png){fig-align="center"}
 
 
 ## Income effects
 
 Do individuals with access to new technology have `higher incomes` than their control parish born comrades?
 
-![](assets/income_effect.png){fig-align="center"}
+![](assets/income.png){fig-align="center"}
 
 ## Income effects across the distribution
 
@@ -235,20 +237,6 @@ At the parish level, do we see differences in the `income distributions` between
 - It allowed structural change on the labor market 🔧💼
 - It created new kinds of jobs 🤖👩‍🔧
 - It benefited those in the middle of the skill distribution 🎓🔌
-
-## 
-
-::: {style="text-align: center"}
-
-<br>
-<br>
-
-<br>
-<br>
-
-Moving to Paper 2
-
-:::
 
 # Appendix{#sec-appendix background-color="#D95F02" visibility="uncounted"}
 
